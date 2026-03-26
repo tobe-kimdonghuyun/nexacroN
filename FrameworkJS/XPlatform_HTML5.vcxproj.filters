@@ -1,0 +1,750 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Source Files\component">
+      <UniqueIdentifier>{1a4927ac-a308-47ac-8f73-2d1cfe28e962}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\framework">
+      <UniqueIdentifier>{2d41a7d4-6551-4731-bd7d-ff91ffd8bc42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\CompBase">
+      <UniqueIdentifier>{07981951-d994-42df-bbb6-8ac274ba097d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\ComComp">
+      <UniqueIdentifier>{d75eb10b-9877-4f6a-bfbc-a863dc053af4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\Grid">
+      <UniqueIdentifier>{4f482f09-ac5c-4045-932e-058468c94414}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\DeviceAPI">
+      <UniqueIdentifier>{6fc4eac7-ea63-4e87-ac67-877603ea7dd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\Chart">
+      <UniqueIdentifier>{f5b1a2ee-3fa9-4ca1-a38f-986f020a22ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\DesignComp">
+      <UniqueIdentifier>{205defa6-81f4-4faa-b39d-d490034fc172}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\ComComp\Design">
+      <UniqueIdentifier>{13f8ed80-c280-4247-8c81-374a3b46f71a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\CompBase\Design">
+      <UniqueIdentifier>{66cb2996-1693-4630-9975-679a6d8fbbda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\Grid\Design">
+      <UniqueIdentifier>{3ffcf7d0-08fd-465a-90a4-a3ce86f6f8e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\DeviceAPI\Design">
+      <UniqueIdentifier>{9ac7cd5d-2035-476a-ad4a-9e810fb599df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\resources">
+      <UniqueIdentifier>{3870e4fd-818f-4b8e-9772-b72167aff50b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\resources\images">
+      <UniqueIdentifier>{bfdb4836-4547-42ec-bbeb-a79106fe8ed7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\Push">
+      <UniqueIdentifier>{c14b8695-f00b-4c34-a5e7-6883d93efe3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\Push\Design">
+      <UniqueIdentifier>{4ffbfc9d-03b5-4c05-9b3a-c76466c1d3a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\Accessibility">
+      <UniqueIdentifier>{5d7aab14-b6c0-4c7f-9ad4-e5232a358b6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\Push\lib">
+      <UniqueIdentifier>{ba7be069-6ed6-470f-a4f8-90201a41844c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\Chart\Design">
+      <UniqueIdentifier>{b6e6f08e-8776-489c-ad6f-cadcd177f521}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\CompBaseEx">
+      <UniqueIdentifier>{168340ec-8a9d-42d5-b804-2f0bc3332d71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\CompBaseEx\Design">
+      <UniqueIdentifier>{9c7913dd-f0c1-40c3-8f20-2012c6e55f33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\ListView">
+      <UniqueIdentifier>{ca6c60c8-55b9-45a2-a130-435c2e6839c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\ListView\Design">
+      <UniqueIdentifier>{f6d2eaf5-bb14-41cb-8bde-cebb69ce4f3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\Graphics">
+      <UniqueIdentifier>{a586c6a5-0198-4cc3-a79e-62c2048dada1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\Graphics\Design">
+      <UniqueIdentifier>{5edd1955-baed-4b12-ba6c-af7508901fde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\ComComp\lang">
+      <UniqueIdentifier>{27260fae-390f-4d74-9e0a-fe0aee216d31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\ComComp\lang\ko">
+      <UniqueIdentifier>{39ea5fca-af9c-4390-9400-e0509c193dbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\ComComp\lang\ja">
+      <UniqueIdentifier>{a9afe6d4-73cf-448f-9d1f-e16463dfd238}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\ComComp\lang\zh">
+      <UniqueIdentifier>{2393b40e-df77-4013-a4aa-f9e068962d88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\MobileComp">
+      <UniqueIdentifier>{10cbdd8c-a6b2-488c-9132-0b1e143113ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\MobileComp\Design">
+      <UniqueIdentifier>{dd450e9a-0d27-40ec-a70d-905ea6983a98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\MobileComp\Base">
+      <UniqueIdentifier>{ce18e8aa-cb89-4e8f-b2cc-6be17367305e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\Cordova">
+      <UniqueIdentifier>{6eba034e-63e7-4b3d-bb0b-498a69fff221}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\XAgent">
+      <UniqueIdentifier>{66c14958-320d-4f69-af98-2368549da578}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component\XAgent\Design">
+      <UniqueIdentifier>{c7af7685-4286-4307-8114-803463ce877e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="XPlatform_HTML5.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="framework\BasicObjs.js">
+      <Filter>Source Files\framework</Filter>
+    </None>
+    <None Include="framework\CssObjs.js">
+      <Filter>Source Files\framework</Filter>
+    </None>
+    <None Include="framework\ErrorDefine.js">
+      <Filter>Source Files\framework</Filter>
+    </None>
+    <None Include="framework\Framework.json">
+      <Filter>Source Files\framework</Filter>
+    </None>
+    <None Include="framework\Platform.js">
+      <Filter>Source Files\framework</Filter>
+    </None>
+    <None Include="framework\Platform_Runtime.js">
+      <Filter>Source Files\framework</Filter>
+    </None>
+    <None Include="framework\SystemBase.js">
+      <Filter>Source Files\framework</Filter>
+    </None>
+    <None Include="framework\SystemBase_HTML5.js">
+      <Filter>Source Files\framework</Filter>
+    </None>
+    <None Include="framework\SystemBase_Runtime.js">
+      <Filter>Source Files\framework</Filter>
+    </None>
+    <None Include="component\ComComp\Button.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\Calendar.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\Cell.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\CheckBox.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\Combo.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\Dataset.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\DatePicker.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\Div.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\DomObject.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\Edit.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\ExportObject.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\FileDownload.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\FileUpload.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\GoogleMap.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\GroupBox.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\ImageViewer.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\ImportObject.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\ListBox.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\MaskEdit.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\Menu.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\Plugin.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\PopupDiv.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\PopupMenu.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\ProgressBar.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\Radio.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\Sketch.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\Spin.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\Static.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\Tab.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\TextArea.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\Tray.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\VideoPlayer.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\VirtualFile.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\WebBrowser.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\CompBase\CompBase.js">
+      <Filter>Source Files\component\CompBase</Filter>
+    </None>
+    <None Include="component\CompBase\CompEventBase.js">
+      <Filter>Source Files\component\CompBase</Filter>
+    </None>
+    <None Include="component\CompBase\Data.js">
+      <Filter>Source Files\component\CompBase</Filter>
+    </None>
+    <None Include="component\CompBase\EditBase.js">
+      <Filter>Source Files\component\CompBase</Filter>
+    </None>
+    <None Include="component\CompBase\Element_HTML5.js">
+      <Filter>Source Files\component\CompBase</Filter>
+    </None>
+    <None Include="component\CompBase\Element_Runtime.js">
+      <Filter>Source Files\component\CompBase</Filter>
+    </None>
+    <None Include="component\CompBase\FormBase.js">
+      <Filter>Source Files\component\CompBase</Filter>
+    </None>
+    <None Include="component\CompBase\FrameBase.js">
+      <Filter>Source Files\component\CompBase</Filter>
+    </None>
+    <None Include="component\CompBase\ScrollBar.js">
+      <Filter>Source Files\component\CompBase</Filter>
+    </None>
+    <None Include="component\CompBase\StatusBar.js">
+      <Filter>Source Files\component\CompBase</Filter>
+    </None>
+    <None Include="component\CompBase\Step.js">
+      <Filter>Source Files\component\CompBase</Filter>
+    </None>
+    <None Include="component\CompBase\TitleBar.js">
+      <Filter>Source Files\component\CompBase</Filter>
+    </None>
+    <None Include="component\DeviceAPI\SQLite.js">
+      <Filter>Source Files\component\DeviceAPI</Filter>
+    </None>
+    <None Include="component\DeviceAPI\SQLite_Runtime.js">
+      <Filter>Source Files\component\DeviceAPI</Filter>
+    </None>
+    <None Include="component\Grid\Grid.js">
+      <Filter>Source Files\component\Grid</Filter>
+    </None>
+    <None Include="component\Grid\GridInfo.js">
+      <Filter>Source Files\component\Grid</Filter>
+    </None>
+    <None Include="framework\Device.js">
+      <Filter>Source Files\framework</Filter>
+    </None>
+    <None Include="component\ComComp.json">
+      <Filter>Source Files\component</Filter>
+    </None>
+    <None Include="component\CompBase.json">
+      <Filter>Source Files\component</Filter>
+    </None>
+    <None Include="component\DeviceAPI.json">
+      <Filter>Source Files\component</Filter>
+    </None>
+    <None Include="component\Grid.json">
+      <Filter>Source Files\component</Filter>
+    </None>
+    <None Include="component\DeviceAPI\Mobile.js">
+      <Filter>Source Files\component\DeviceAPI</Filter>
+    </None>
+    <None Include="component\DeviceAPI\BluetoothLE.js">
+      <Filter>Source Files\component\DeviceAPI</Filter>
+    </None>
+    <None Include="component\DeviceAPI\DeviceObjs.js">
+      <Filter>Source Files\component\DeviceAPI</Filter>
+    </None>
+    <None Include="component\DeviceAPI\DeviceObjs_Runtime.js">
+      <Filter>Source Files\component\DeviceAPI</Filter>
+    </None>
+    <None Include="resources\images\tobesoft.htm">
+      <Filter>Source Files\resources\images</Filter>
+    </None>
+    <None Include="framework\Platform_HTML5.js">
+      <Filter>Source Files\framework</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignButton.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignCalendar.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignCheckBox.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignCombo.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignDatePicker.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignDiv.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignEdit.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignFileDownload.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignFileUpload.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignGroupBox.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignImageViewer.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignListBox.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignMaskEdit.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignMenu.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignPopupDiv.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignPopupMenu.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignProgressBar.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignRadio.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignSketch.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignSpin.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignStatic.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignTab.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignTextArea.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignWebBrowser.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\CompBase\Design\DesignCompBase.js">
+      <Filter>Source Files\component\CompBase\Design</Filter>
+    </None>
+    <None Include="component\CompBase\Design\DesignFrameBase.js">
+      <Filter>Source Files\component\CompBase\Design</Filter>
+    </None>
+    <None Include="component\CompBase\Design\DesignScrollBar.js">
+      <Filter>Source Files\component\CompBase\Design</Filter>
+    </None>
+    <None Include="component\CompBase\Design\DesignStatusBar.js">
+      <Filter>Source Files\component\CompBase\Design</Filter>
+    </None>
+    <None Include="component\CompBase\Design\DesignStep.js">
+      <Filter>Source Files\component\CompBase\Design</Filter>
+    </None>
+    <None Include="component\CompBase\Design\DesignTitleBar.js">
+      <Filter>Source Files\component\CompBase\Design</Filter>
+    </None>
+    <None Include="component\Grid\Design\DesignGrid.js">
+      <Filter>Source Files\component\Grid\Design</Filter>
+    </None>
+    <None Include="component\DesignComp\DesignForm_eclipse.js" />
+    <None Include="component\DesignComp\DesignForm.js">
+      <Filter>Source Files\component\DesignComp</Filter>
+    </None>
+    <None Include="component\DeviceAPI\Design\DesignSQLite.js">
+      <Filter>Source Files\component\DeviceAPI\Design</Filter>
+    </None>
+    <None Include="resources\Resource.json">
+      <Filter>Source Files\resources</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignVirtualFile.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\Push.json">
+      <Filter>Source Files\component</Filter>
+    </None>
+    <None Include="component\Push\XPush.js">
+      <Filter>Source Files\component\Push</Filter>
+    </None>
+    <None Include="component\Push\Design\DesignXPush.js">
+      <Filter>Source Files\component\Push\Design</Filter>
+    </None>
+    <None Include="component\CompBase\Design\DesignData.js">
+      <Filter>Source Files\component\CompBase\Design</Filter>
+    </None>
+    <None Include="framework\Device_Android.js">
+      <Filter>Source Files\framework</Filter>
+    </None>
+    <None Include="framework\Device_iOS.js">
+      <Filter>Source Files\framework</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignGoogleMap.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\Accessibility.json">
+      <Filter>Source Files\component</Filter>
+    </None>
+    <None Include="component\Accessibility\Accessibility_Comp.js">
+      <Filter>Source Files\component\Accessibility</Filter>
+    </None>
+    <None Include="component\Accessibility\Accessibility_HTML5.js">
+      <Filter>Source Files\component\Accessibility</Filter>
+    </None>
+    <None Include="component\Accessibility\Accessibility_Runtime.js">
+      <Filter>Source Files\component\Accessibility</Filter>
+    </None>
+    <None Include="component\Accessibility\Accessibility.js">
+      <Filter>Source Files\component\Accessibility</Filter>
+    </None>
+    <None Include="component\Push\XPushAPI_Runtime.js">
+      <Filter>Source Files\component\Push</Filter>
+    </None>
+    <None Include="component\Push\lib\sockjs.js">
+      <Filter>Source Files\component\Push\lib</Filter>
+    </None>
+    <None Include="component\Push\lib\sockjs-1.1.1.js">
+      <Filter>Source Files\component\Push\lib</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignPlugin.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\Chart\BasicChart.js">
+      <Filter>Source Files\component\Chart</Filter>
+    </None>
+    <None Include="component\Chart\BubbleChart.js">
+      <Filter>Source Files\component\Chart</Filter>
+    </None>
+    <None Include="component\Chart\ChartBase.js">
+      <Filter>Source Files\component\Chart</Filter>
+    </None>
+    <None Include="component\Chart\PieChart.js">
+      <Filter>Source Files\component\Chart</Filter>
+    </None>
+    <None Include="component\Chart\Design\DesignBasicChart.js">
+      <Filter>Source Files\component\Chart\Design</Filter>
+    </None>
+    <None Include="component\Chart\Design\DesignBubbleChart.js">
+      <Filter>Source Files\component\Chart\Design</Filter>
+    </None>
+    <None Include="component\Chart\Design\DesignPieChart.js">
+      <Filter>Source Files\component\Chart\Design</Filter>
+    </None>
+    <None Include="component\Chart\Design\DesignChartBase.js">
+      <Filter>Source Files\component\Chart\Design</Filter>
+    </None>
+    <None Include="component\Chart.json">
+      <Filter>Source Files\component</Filter>
+    </None>
+    <None Include="component\Push\XPushAPI_Web.js">
+      <Filter>Source Files\component\Push</Filter>
+    </None>
+    <None Include="component\CompBaseEx\ComplexComp.js">
+      <Filter>Source Files\component\CompBaseEx</Filter>
+    </None>
+    <None Include="component\CompBaseEx\SimpleComp.js">
+      <Filter>Source Files\component\CompBaseEx</Filter>
+    </None>
+    <None Include="component\CompBaseEx\Design\DesignComplexComp.js">
+      <Filter>Source Files\component\CompBaseEx\Design</Filter>
+    </None>
+    <None Include="component\CompBaseEx\Design\DesignSimpleComp.js">
+      <Filter>Source Files\component\CompBaseEx\Design</Filter>
+    </None>
+    <None Include="component\ListView\ListView.js">
+      <Filter>Source Files\component\ListView</Filter>
+    </None>
+    <None Include="component\ListView\Design\DesignListView.js">
+      <Filter>Source Files\component\ListView\Design</Filter>
+    </None>
+    <None Include="component\ListView.json">
+      <Filter>Source Files\component</Filter>
+    </None>
+    <None Include="framework\Device_Windows.js">
+      <Filter>Source Files\framework</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignVideoPlayer.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\DeviceAPI\TCPClientSocket.js">
+      <Filter>Source Files\component\DeviceAPI</Filter>
+    </None>
+    <None Include="component\Grid_Contents.json">
+      <Filter>Source Files\component</Filter>
+    </None>
+    <None Include="component\CompBase\Animation.js">
+      <Filter>Source Files\component\CompBase</Filter>
+    </None>
+    <None Include="component\Chart\Design\DesignRadarChart.js">
+      <Filter>Source Files\component\Chart\Design</Filter>
+    </None>
+    <None Include="component\Chart\RadarChart.js">
+      <Filter>Source Files\component\Chart</Filter>
+    </None>
+    <None Include="component\Chart\Design\DesignGaugeChart.js">
+      <Filter>Source Files\component\Chart\Design</Filter>
+    </None>
+    <None Include="component\Chart\GaugeChart.js">
+      <Filter>Source Files\component\Chart</Filter>
+    </None>
+    <None Include="component\ComComp\FileDialog.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\FileUpTransfer.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\FileDownTransfer.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\Graphics\Graphics.js">
+      <Filter>Source Files\component\Graphics</Filter>
+    </None>
+    <None Include="component\Graphics\Design\DesignGraphics.js">
+      <Filter>Source Files\component\Graphics\Design</Filter>
+    </None>
+    <None Include="component\ComComp\lang\ko\ime.js">
+      <Filter>Source Files\component\ComComp\lang\ko</Filter>
+    </None>
+    <None Include="component\ComComp\lang\ja\ime.js">
+      <Filter>Source Files\component\ComComp\lang\ja</Filter>
+    </None>
+    <None Include="component\ComComp\Action.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\View.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\DataObject.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignView.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\ComComp\WebView.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignWebView.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\Graphics.json">
+      <Filter>Source Files\component</Filter>
+    </None>
+    <None Include="framework\Framework.min.json">
+      <Filter>Source Files\framework</Filter>
+    </None>
+    <None Include="component\Accessibility.min.json">
+      <Filter>Source Files\component</Filter>
+    </None>
+    <None Include="component\ComComp.min.json">
+      <Filter>Source Files\component</Filter>
+    </None>
+    <None Include="component\CompBase.min.json">
+      <Filter>Source Files\component</Filter>
+    </None>
+    <None Include="component\DeviceAPI.min.json">
+      <Filter>Source Files\component</Filter>
+    </None>
+    <None Include="component\Grid.min.json">
+      <Filter>Source Files\component</Filter>
+    </None>
+    <None Include="component\ListView.min.json">
+      <Filter>Source Files\component</Filter>
+    </None>
+    <None Include="component\Push.min.json">
+      <Filter>Source Files\component</Filter>
+    </None>
+    <None Include="component\Graphics.min.json">
+      <Filter>Source Files\component</Filter>
+    </None>
+    <None Include="framework\LocaleSupport.js">
+      <Filter>Source Files\framework</Filter>
+    </None>
+    <None Include="framework\MakeLocaleInfo.js">
+      <Filter>Source Files\framework</Filter>
+    </None>
+    <None Include="framework\Crypto.js">
+      <Filter>Source Files\framework</Filter>
+    </None>
+    <None Include="component\ComComp\lang\zh\ime.js">
+      <Filter>Source Files\component\ComComp\lang\zh</Filter>
+    </None>
+    <None Include="component\MobileComp\MultiLineTextField.js">
+      <Filter>Source Files\component\MobileComp</Filter>
+    </None>
+    <None Include="component\MobileComp\TextField.js">
+      <Filter>Source Files\component\MobileComp</Filter>
+    </None>
+    <None Include="component\MobileComp\Design\DesignMultiLineTextField.js">
+      <Filter>Source Files\component\MobileComp\Design</Filter>
+    </None>
+    <None Include="component\MobileComp\Design\DesignTextField.js">
+      <Filter>Source Files\component\MobileComp\Design</Filter>
+    </None>
+    <None Include="component\MobileComp.json">
+      <Filter>Source Files\component</Filter>
+    </None>
+    <None Include="component\MobileComp.min.json">
+      <Filter>Source Files\component</Filter>
+    </None>
+    <None Include="component\ComComp\MultiCombo.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\CheckBoxSet.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="component\ComComp\Design\DesignMultiCombo.js">
+      <Filter>Source Files\component\ComComp\Design</Filter>
+    </None>
+    <None Include="component\MobileComp\MobileElement_Runtime.js">
+      <Filter>Source Files\component\MobileComp\Base</Filter>
+    </None>
+    <None Include="component\MobileComp\MobileCompBase.js">
+      <Filter>Source Files\component\MobileComp\Base</Filter>
+    </None>
+    <None Include="component\MobileComp\MobileElement_HTML5.js">
+      <Filter>Source Files\component\MobileComp\Base</Filter>
+    </None>
+    <None Include="component\MobileComp\DateField.js">
+      <Filter>Source Files\component\MobileComp</Filter>
+    </None>
+    <None Include="component\MobileComp\Design\DesignDateField.js">
+      <Filter>Source Files\component\MobileComp\Design</Filter>
+    </None>
+    <None Include="component\ComComp\Panel.js">
+      <Filter>Source Files\component\ComComp</Filter>
+    </None>
+    <None Include="nexacrolib.json" />
+    <None Include="component\MobileComp\DateRangePicker.js">
+      <Filter>Source Files\component\MobileComp</Filter>
+    </None>
+    <None Include="component\MobileComp\Design\DesignDateRangePicker.js">
+      <Filter>Source Files\component\MobileComp\Design</Filter>
+    </None>
+    <None Include="component\MobileComp\SpinnerControl.js">
+      <Filter>Source Files\component\MobileComp\Base</Filter>
+    </None>
+    <None Include="component\MobileComp\TimePickerControl.js">
+      <Filter>Source Files\component\MobileComp</Filter>
+    </None>
+    <None Include="component\MobileComp\PopupDateRangePicker.js">
+      <Filter>Source Files\component\MobileComp</Filter>
+    </None>
+    <None Include="component\MobileComp\Design\DesignPopupDateRangePicker.js">
+      <Filter>Source Files\component\MobileComp\Design</Filter>
+    </None>
+    <None Include="component\Cordova.json">
+      <Filter>Source Files\component</Filter>
+    </None>
+    <None Include="component\Cordova\cordova.js">
+      <Filter>Source Files\component\Cordova</Filter>
+    </None>
+    <None Include="component\XAgent\XAgent.js">
+      <Filter>Source Files\component\XAgent</Filter>
+    </None>
+    <None Include="component\XAgent\Design\DesignXAgent.js">
+      <Filter>Source Files\component\XAgent\Design</Filter>
+    </None>
+    <None Include="component\XAgent.json">
+      <Filter>Source Files\component</Filter>
+    </None>
+    <None Include="component\XAgent.min.json">
+      <Filter>Source Files\component</Filter>
+    </None>
+    <None Include="component\MobileComp\Design\DesignMobileCompBase.js">
+      <Filter>Source Files\component\MobileComp\Design</Filter>
+    </None>
+    <None Include="component\CompBase\ViewTransition.js">
+      <Filter>Source Files\component\CompBase</Filter>
+    </None>
+    <None Include="component\MobileComp\Design\DesignSelectField.js">
+      <Filter>Source Files\component\MobileComp\Design</Filter>
+    </None>
+    <None Include="component\MobileComp\SelectField.js">
+      <Filter>Source Files\component\MobileComp</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\images\waitimage.gif">
+      <Filter>Source Files\resources\images</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
