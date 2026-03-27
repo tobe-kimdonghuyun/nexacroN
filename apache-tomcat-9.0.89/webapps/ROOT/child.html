@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Child Window</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; text-align: center; }
+        input { padding: 8px; width: 80%; margin-bottom: 10px; }
+        button { padding: 10px 20px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h3>Child Window</h3>
+    <p>Enter a value and click submit to return it to the parent (resolving the Promise).</p>
+    
+    <input type="text" id="userInput" placeholder="Type something..." value="Hello Promise!">
+    <br>
+    <button onclick="submitData()">Submit & Close</button>
+
+    <script>
+        function submitData() {
+            /*const inputValue = document.getElementById('userInput').value;
+            
+            // Send data back to the opener (parent)
+            if (window.opener) {
+                // You can send objects too: { text: inputValue, timestamp: Date.now() }
+                window.opener.postMessage(inputValue, '*'); 
+                window.close();
+            } else {
+                alert('No opener found! This page should be opened via parent.html');
+            }*/
+           var datalistfiltered =   [1,2,3,4,5,6,7,8,9,10];
+           var datalistfilter = [1,2,3,4,5,6,7,8,9,10];
+           var datalistid = [1,2,3,6,7,8,9,10];
+            for (j = 0; datalistfilter.length > j; j++)
+                {
+                    var datalistfound = false;
+                    for (i = 0; datalistid.length > i; i++)
+                        if (datalistid[i] == datalistfilter[j])
+                        {
+                            console.log(datalistfilter[j]);
+                            datalistfound = true;
+                            break;
+                        }
+                    if (!datalistfound)
+                    {
+                        datalistfiltered.push(datalistfilter[j]);
+                    }
+                }
+        }
+    </script>
+</body>
+</html>
