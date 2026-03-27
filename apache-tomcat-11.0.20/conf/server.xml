@@ -148,6 +148,7 @@
                prefix="localhost_access_log" suffix=".txt"
                pattern="%h %l %u %t &quot;%r&quot; %s %b" />
 
+        <Context docBase="nexacro14" path="/nexacro14" reloadable="true" />
       </Host>
     </Engine>
   </Service>
