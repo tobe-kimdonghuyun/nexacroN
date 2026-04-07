@@ -16,5 +16,3 @@ goto end
 
 :end
 endlocal
-
-pause

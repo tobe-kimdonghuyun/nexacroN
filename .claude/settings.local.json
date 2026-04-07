@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cmd /c \"run_Deploy.bat\")",
+      "Bash(echo \"EXIT CODE: $?\")",
+      "Bash(powershell -NoProfile -ExecutionPolicy Bypass -File \"D:\\\\git_prj\\\\nexacroN\\\\tools\\\\convert_utf8bom.ps1\" -TargetDir \"D:\\\\git_prj\\\\nexacroN\\\\nexacrolib\\\\nexacrolib\")",
+      "Bash(powershell:*)"
+    ]
+  }
+}
