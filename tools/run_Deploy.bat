@@ -159,6 +159,84 @@ for %%D in (ComComp CompBase CompBaseEx DesignComp DeviceAPI Graphics Grid ListV
 
 echo [INFO] Component copy complete.
 
+rem --- 10-1. Replace *.json with *.min.json in component folder ---
+rem    규칙: *.min.json 이 존재하면 기존 *.json 삭제 후 *.min.json -> *.json 으로 이름 변경
+echo [INFO] Replacing *.json with *.min.json in component folder ...
+set "MIN_COUNT=0"
+if not exist "%COMP_DEST%\" (
+    echo [WARN]   COMP_DEST not found, skipping min.json replacement.
+    goto :skip_min_replace
+)
+pushd "%COMP_DEST%"
+for /f "usebackq delims=" %%M in (`dir /b /s /a-d "*.min.json" 2^>nul`) do (
+    set "_MINNAME=%%~nM"
+    set "_BASE=!_MINNAME:~0,-4!"
+    set "_PARENTDIR=%%~dpM"
+    if exist "!_PARENTDIR!!_BASE!.json" (
+        del /q "!_PARENTDIR!!_BASE!.json"
+        echo [INFO]   Deleted  : !_BASE!.json
+    )
+    ren "%%~fM" "!_BASE!.json"
+    echo [INFO]   Renamed  : %%~nxM -^> !_BASE!.json
+    set /a MIN_COUNT+=1
+)
+popd
+:skip_min_replace
+if !MIN_COUNT!==0 (
+    echo [INFO]   No *.min.json files found, skipping.
+) else (
+    echo [INFO]   Replaced !MIN_COUNT! files.
+)
+
+rem --- 10-2. Copy nexacrolib.json to deploy_engine\nexacrolib ---
+set "NEXLIB_JSON_SRC=%~dp0..\nexacrolib\nexacrolib.json"
+set "NEXLIB_JSON_DEST=%ENGINE_DIR%\nexacrolib\nexacrolib.json"
+
+echo [INFO] Copying nexacrolib.json to deploy_engine ...
+if exist "%NEXLIB_JSON_SRC%" (
+    copy /Y "%NEXLIB_JSON_SRC%" "%NEXLIB_JSON_DEST%" >nul
+    if errorlevel 1 (
+        echo [WARN] Failed to copy nexacrolib.json
+    ) else (
+        echo [INFO] nexacrolib.json ready: %NEXLIB_JSON_DEST%
+    )
+) else (
+    echo [WARN] nexacrolib.json not found: %NEXLIB_JSON_SRC%
+)
+
+rem --- 10-3. Copy DesignComp folder to deploy_engine\nexacrolib ---
+set "DESIGNCOMP_SRC=%~dp0..\nexacrolib\nexacrolib\component\DesignComp"
+set "DESIGNCOMP_DEST=%ENGINE_DIR%\nexacrolib\component\DesignComp"
+
+echo [INFO] Copying DesignComp to deploy_engine ...
+if exist "%DESIGNCOMP_SRC%\" (
+    xcopy "%DESIGNCOMP_SRC%" "%DESIGNCOMP_DEST%" /E /I /Y /Q
+    if errorlevel 1 (
+        echo [WARN] Failed to copy DesignComp folder.
+    ) else (
+        echo [INFO] DesignComp ready: %DESIGNCOMP_DEST%
+    )
+) else (
+    echo [WARN] DesignComp not found: %DESIGNCOMP_SRC%
+)
+
+rem --- 10-4. Copy Resource.json to deploy_engine\nexacrolib\resources ---
+set "RESOURCE_JSON_SRC=%~dp0..\nexacrolib\nexacrolib\resources\Resource.json"
+set "RESOURCE_JSON_DEST=%ENGINE_DIR%\nexacrolib\resources\Resource.json"
+
+echo [INFO] Copying Resource.json to deploy_engine ...
+if exist "%RESOURCE_JSON_SRC%" (
+    if not exist "%ENGINE_DIR%\nexacrolib\resources\" mkdir "%ENGINE_DIR%\nexacrolib\resources"
+    copy /Y "%RESOURCE_JSON_SRC%" "%RESOURCE_JSON_DEST%" >nul
+    if errorlevel 1 (
+        echo [WARN] Failed to copy Resource.json
+    ) else (
+        echo [INFO] Resource.json ready: %RESOURCE_JSON_DEST%
+    )
+) else (
+    echo [WARN] Resource.json not found: %RESOURCE_JSON_SRC%
+)
+
 rem --- 11. Copy Framework.min.json as Framework.json and metainfo folder ---
 set "FW_SRC=%~dp0..\nexacrolib\nexacrolib\framework"
 set "FW_DEST=%ENGINE_DIR%\nexacrolib\framework"
