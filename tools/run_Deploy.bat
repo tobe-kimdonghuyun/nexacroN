@@ -179,4 +179,20 @@ if errorlevel 1 (
     echo [INFO] metainfo ready: %FW_DEST%\metainfo
 )
 
+rem --- 12. Compress deploy_engine subfolders into deploy_engine.zip ---
+set "ZIP_OUT=%ENGINE_DIR%\deploy_engine.zip"
+for %%Z in ("%ZIP_OUT%") do set "ZIP_OUT=%%~fZ"
+
+echo.
+echo [INFO] Compressing deploy_engine to: %ZIP_OUT%
+if exist "%ZIP_OUT%" del /q "%ZIP_OUT%"
+
+powershell -NoProfile -ExecutionPolicy Bypass -Command ^
+    "Compress-Archive -Path '%ENGINE_DIR%\*' -DestinationPath '%ZIP_OUT%'"
+if errorlevel 1 (
+    echo [WARN] Failed to create deploy_engine.zip
+) else (
+    echo [INFO] deploy_engine.zip created: %ZIP_OUT%
+)
+
 endlocal

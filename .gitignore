@@ -5,3 +5,6 @@ deploy_engine/
 deploy/
 nexacrolib/
 output/
+
+# 모든 위치의 $Geninfo$.geninfo 파일 무시
+**/$Geninfo$.geninfo
