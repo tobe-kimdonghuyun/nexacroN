@@ -44,15 +44,7 @@ if errorlevel 1 (
 )
 
 echo [3/3] Converting JS files in %DEST_DIR% to UTF-8 BOM ...
-powershell -NoProfile -ExecutionPolicy Bypass -Command ^
-    "Get-ChildItem -Path '%DEST_DIR%' -Filter '*.js' -Recurse | ForEach-Object { ^
-        $bytes = [System.IO.File]::ReadAllBytes($_.FullName); ^
-        if ($bytes.Length -ge 3 -and $bytes[0] -eq 0xEF -and $bytes[1] -eq 0xBB -and $bytes[2] -eq 0xBF) { return }; ^
-        try { $text = [System.IO.File]::ReadAllText($_.FullName, [System.Text.Encoding]::UTF8) } ^
-        catch { $text = [System.IO.File]::ReadAllText($_.FullName, [System.Text.Encoding]::GetEncoding(949)) }; ^
-        [System.IO.File]::WriteAllText($_.FullName, $text, (New-Object System.Text.UTF8Encoding $true)); ^
-        Write-Host ('  Converted: ' + $_.FullName) ^
-    }"
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0convert_utf8bom.ps1" -TargetDir "%DEST_DIR%"
 if errorlevel 1 (
     echo [ERROR] Failed to convert JS file encoding.
     set COPY_OK=0
