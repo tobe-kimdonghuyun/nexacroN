@@ -20,6 +20,7 @@ if %ERRORLEVEL% neq 0 echo [ERROR] Failed to checkout branch: %BRANCH% & popd & 
 
 git pull origin %BRANCH%
 if %ERRORLEVEL% neq 0 echo [ERROR] Git pull failed for branch: %BRANCH% & popd & pause & exit /b %ERRORLEVEL%
+for /f %%H in ('git rev-parse HEAD') do set "COMMIT_HASH=%%H"
 popd
 
 echo [2/3] Copying framework to %DEST_DIR% ...
@@ -67,7 +68,7 @@ if errorlevel 1 (
 )
 
 if "%COPY_OK%"=="1" (
-    echo [SUCCESS] All steps completed successfully [%BRANCH% branch].
+    echo [SUCCESS] All steps completed successfully [%BRANCH% branch, %COMMIT_HASH%].
 ) else (
     echo [ERROR] Some steps failed. & pause
 )

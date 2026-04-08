@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <root>
-                              
+                                
+  
   
   
   
@@ -15,7 +16,8 @@
   
   
   <GenInfo version="1.1">
-                                                            
+                                                                
+    
     
     
     
@@ -30,7 +32,8 @@
     
     
     <Rule>
-                                                                                          
+                                                                                                
+      
       
       
       
@@ -45,7 +48,8 @@
       
       
       <ENV rule_version="1.05"/>
-                                                                                          
+                                                                                                
+      
       
       
       
@@ -60,7 +64,8 @@
       
       
       <ADL rule_version="1.14"/>
-                                                                                          
+                                                                                                
+      
       
       
       
@@ -75,7 +80,8 @@
       
       
       <FDL rule_version="1.04"/>
-                                                                                          
+                                                                                                
+      
       
       
       
@@ -90,7 +96,8 @@
       
       
       <XCSS rule_version="1.04"/>
-                                                                                          
+                                                                                                
+      
       
       
       
@@ -105,7 +112,8 @@
       
       
       <Script rule_version="1.02"/>
-                                                                                          
+                                                                                                
+      
       
       
       
@@ -120,7 +128,8 @@
       
       
       <GeneratorInfo rule_version="1.3"/>
-                                                                                        
+                                                                                              
+    
     
     
     
@@ -135,8 +144,9 @@
     
     
     </Rule>
-                                                            
+                                                                
   
+    
     
     
     
@@ -170,7 +180,8 @@
       <File checksum="20260407172552" errormsg="" url="D:\git_prj\nexacroN\nexacrolib\nexacrolib\component\Push.json"/>
       <File checksum="20260407172550" errormsg="" url="D:\git_prj\nexacroN\nexacrolib\nexacrolib\component\Graphics.json"/>
     </Info>
-                                                      
+                                                          
+  
   
   
   
@@ -184,7 +195,8 @@
   
   
   </GenInfo>
-                            
+                              
+
 
 
 
