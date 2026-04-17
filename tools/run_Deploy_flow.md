@@ -100,8 +100,12 @@ flowchart TD
     M --> N
 
     %% --- Step 12 ---
-    N["🗜️ Step 12\ndeploy_engine 폴더를\ndeploy_engine.zip 으로 압축\n(PowerShell Compress-Archive)"]
-    N --> Z
+    N["🔄 Step 12\ndeploy_engine\\nexacrolib 내 JSON 파일 탐색\n'version': '21.0.0.9999'\n→ '24.0.0.9999' 로 치환\n(PowerShell 정규식)"]
+    N --> O
+
+    %% --- Step 13 ---
+    O["🗜️ Step 13\ndeploy_engine 폴더를\nnexacrolib_Merge_Compress_Shrink.zip 으로 압축\n(PowerShell Compress-Archive)"]
+    O --> Z
 
     Z([✅ 완료])
 
@@ -135,7 +139,8 @@ flowchart TD
 | **Step 10-3** | `DesignComp` 폴더 복사 | `nexacrolib\nexacrolib\component\DesignComp` | `deploy_engine\nexacrolib\component\DesignComp` 생성 |
 | **Step 10-4** | `Resource.json` 복사 | `nexacrolib\nexacrolib\resources\Resource.json` | `deploy_engine\nexacrolib\resources\Resource.json` 생성 |
 | **Step 11** | framework 파일 복사 | `nexacrolib\framework` 소스 | `Framework.json` + `metainfo` 폴더 복사 |
-| **Step 12** | ZIP 압축 | `deploy_engine` 전체 폴더 | `deploy_engine.zip` 생성 |
+| **Step 12** | version 문자열 치환 | `deploy_engine\nexacrolib` 내 전체 `.json` (재귀) | `"version": "21.0.0.9999"` → `"24.0.0.9999"` 치환 |
+| **Step 13** | ZIP 압축 | `deploy_engine` 전체 폴더 | `nexacrolib_Merge_Compress_Shrink.zip` 생성 |
 
 ---
 
@@ -198,5 +203,5 @@ deploy_engine\
 │       ├── Framework.json   ← Framework.min.json 복사본 (Step 11)
 │       └── metainfo\
 ├── <GenerateRule 파일>
-└── deploy_engine.zip        ← 전체 압축본
+└── nexacrolib_Merge_Compress_Shrink.zip  ← 전체 압축본 (Step 13, version 치환 후)
 ```

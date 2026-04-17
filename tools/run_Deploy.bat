@@ -8,7 +8,6 @@ set START_BAT=D:\git_prj\nexacroN\Jar\bin\start.bat
 rem --- 1. Check deploy_config.txt exists ---
 if not exist "%CONFIG_FILE%" (
     echo [ERROR] deploy_config.txt not found: %CONFIG_FILE%
-    pause
     exit /b 1
 )
 
@@ -37,7 +36,6 @@ if not defined GenerateRule   set "MISSING=!MISSING! GenerateRule"
 
 if defined MISSING (
     echo [ERROR] Missing fields in deploy_config.txt:!MISSING!
-    pause
     exit /b 1
 )
 
@@ -84,7 +82,6 @@ if "%JAVA_HOME%"=="" (
     if not "%JAVA_HOME%"=="" goto java_found
 
     echo [ERROR] JAVA_HOME not found. Please set JAVA_HOME and retry.
-    pause
     exit /b 1
 )
 
@@ -94,7 +91,6 @@ echo [INFO] JAVA_HOME: %JAVA_HOME%
 rem --- 6. Check start.bat exists ---
 if not exist "%START_BAT%" (
     echo [ERROR] start.bat not found: %START_BAT%
-    pause
     exit /b 1
 )
 
@@ -189,7 +185,7 @@ if !MIN_COUNT!==0 (
 )
 
 rem --- 10-2. Copy nexacrolib.json to deploy_engine\nexacrolib ---
-set "NEXLIB_JSON_SRC=%~dp0..\nexacrolib\nexacrolib.json"
+set "NEXLIB_JSON_SRC=%~dp0..\nexacrolib\nexacrolib\nexacrolib.json"
 set "NEXLIB_JSON_DEST=%ENGINE_DIR%\nexacrolib\nexacrolib.json"
 
 echo [INFO] Copying nexacrolib.json to deploy_engine ...
@@ -257,8 +253,23 @@ if errorlevel 1 (
     echo [INFO] metainfo ready: %FW_DEST%\metainfo
 )
 
-rem --- 12. Compress deploy_engine subfolders into deploy_engine.zip ---
-set "ZIP_OUT=%ENGINE_DIR%\deploy_engine.zip"
+rem --- 12. Replace "version": "21.0.0.9999" -> "24.0.0.9999" in all JSON files under deploy_engine\nexacrolib ---
+echo.
+echo [INFO] Replacing version string in JSON files under %ENGINE_DIR%\nexacrolib ...
+set "VER_COUNT=0"
+for /f "usebackq delims=" %%J in (`dir /b /s /a-d "%ENGINE_DIR%\nexacrolib\*.json" 2^>nul`) do (
+    powershell -NoProfile -ExecutionPolicy Bypass -Command ^
+        "(Get-Content '%%J' -Raw) -replace '\"version\"\s*:\s*\"21\.0\.0\.9999\"', '\"version\": \"24.0.0.9999\"' | Set-Content '%%J' -NoNewline"
+    if errorlevel 1 (
+        echo [WARN] Failed to process: %%J
+    ) else (
+        set /a VER_COUNT+=1
+    )
+)
+echo [INFO] Version replacement done. Processed !VER_COUNT! file(s).
+
+rem --- 13. Compress deploy_engine subfolders into nexacrolib_merge_compress_shrink.zip ---
+set "ZIP_OUT=%ENGINE_DIR%\nexacrolib_Merge_Compress_Shrink.zip"
 for %%Z in ("%ZIP_OUT%") do set "ZIP_OUT=%%~fZ"
 
 echo.
@@ -268,9 +279,9 @@ if exist "%ZIP_OUT%" del /q "%ZIP_OUT%"
 powershell -NoProfile -ExecutionPolicy Bypass -Command ^
     "Compress-Archive -Path '%ENGINE_DIR%\*' -DestinationPath '%ZIP_OUT%'"
 if errorlevel 1 (
-    echo [WARN] Failed to create deploy_engine.zip
+    echo [WARN] Failed to create nexacrolib_merge_compress_shrink.zip
 ) else (
-    echo [INFO] deploy_engine.zip created: %ZIP_OUT%
+    echo [INFO] nexacrolib_merge_compress_shrink.zip created: %ZIP_OUT%
 )
 
 endlocal

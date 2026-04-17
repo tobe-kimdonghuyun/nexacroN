@@ -1,4 +1,5 @@
 @echo off
+chcp 65001 > nul
 setlocal
 set "BRANCH=%~1"
 if "%BRANCH%"=="" set /p BRANCH="branch 명을 입력하세요: "
@@ -65,6 +66,22 @@ xcopy "%GENERATERULE_SRC2%\*" "%GENERATERULE_DEST%" /Y
 if errorlevel 1 (
     echo [ERROR] Failed to copy from TiGenerateLib\Template\24
     set COPY_OK=0
+)
+
+rem --- [5/5] Compress nexacrolib and generate folders into nexacrolib_noMerge_noCompress_noShrink.zip ---
+set "ZIP_OUT=%PROJECT_ROOT%\nexacrolib\nexacrolib_noMerge_noCompress_noShrink.zip"
+echo.
+echo [5/5] Compressing nexacrolib and generate folders ...
+echo        Target: %ZIP_OUT%
+if exist "%ZIP_OUT%" del /q "%ZIP_OUT%"
+
+powershell -NoProfile -ExecutionPolicy Bypass -Command ^
+    "Compress-Archive -Path '%PROJECT_ROOT%\nexacrolib\nexacrolib', '%PROJECT_ROOT%\nexacrolib\generate' -DestinationPath '%ZIP_OUT%'"
+if errorlevel 1 (
+    echo [WARN] Failed to create nexacrolib_noMerge_noCompress_noShrink.zip
+    set COPY_OK=0
+) else (
+    echo [INFO] nexacrolib_noMerge_noCompress_noShrink.zip created: %ZIP_OUT%
 )
 
 if "%COPY_OK%"=="1" (
