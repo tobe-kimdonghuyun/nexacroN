@@ -1,11 +1,11 @@
 ﻿{
   "Nexacro N": {
-    "version":"1.1.82", 
+    "version":"1.1.83", 
     "name": "Nexacro Deploy JAVA",
     "resources":
     [
       {
-        "file":"NexacroN_Deploy_JAVA_20260311(1.1.82)_1.zip"
+        "file":"NexacroN_Deploy_JAVA_20260416(1.1.83)_1.zip"
       }
     ]
   }

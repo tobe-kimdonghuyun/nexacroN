@@ -1,6 +1,6 @@
 @echo off
 chcp 65001 > nul
-setlocal
+setlocal enabledelayedexpansion
 set "BRANCH=%~1"
 if "%BRANCH%"=="" set /p BRANCH="branch 명을 입력하세요: "
 if "%BRANCH%"=="" echo [ERROR] No branch name provided. & pause & exit /b 1
@@ -22,6 +22,7 @@ if %ERRORLEVEL% neq 0 echo [ERROR] Failed to checkout branch: %BRANCH% & popd & 
 git pull origin %BRANCH%
 if %ERRORLEVEL% neq 0 echo [ERROR] Git pull failed for branch: %BRANCH% & popd & pause & exit /b %ERRORLEVEL%
 for /f %%H in ('git rev-parse HEAD') do set "COMMIT_HASH=%%H"
+for /f "usebackq delims=" %%M in (`git log -1 --pretty^=format:%%s`) do set "COMMIT_MSG=%%M"
 popd
 
 echo [2/3] Copying framework to %DEST_DIR% ...
@@ -85,7 +86,10 @@ if errorlevel 1 (
 )
 
 if "%COPY_OK%"=="1" (
-    echo [SUCCESS] All steps completed successfully [%BRANCH% branch, %COMMIT_HASH%].
+    echo [SUCCESS] All steps completed successfully.
+    echo          Branch  : %BRANCH%
+    echo          Hash    : %COMMIT_HASH%
+    echo          Message : !COMMIT_MSG!
 ) else (
     echo [ERROR] Some steps failed. & pause
 )

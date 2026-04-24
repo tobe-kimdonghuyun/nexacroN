@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <root>
-                                                                    
+                                                                                    
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   
@@ -34,7 +42,15 @@
   
   
   <GenInfo version="1.1">
-                                                                                                                                        
+                                                                                                                                                                        
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -68,7 +84,15 @@
     
     
     <Rule>
-                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                            
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -102,7 +126,15 @@
       
       
       <ENV rule_version="1.05"/>
-                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                            
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -136,7 +168,15 @@
       
       
       <ADL rule_version="1.14"/>
-                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                            
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -170,7 +210,15 @@
       
       
       <FDL rule_version="1.04"/>
-                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                            
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -204,7 +252,15 @@
       
       
       <XCSS rule_version="1.04"/>
-                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                            
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -238,7 +294,15 @@
       
       
       <Script rule_version="1.02"/>
-                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                            
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -272,7 +336,15 @@
       
       
       <GeneratorInfo rule_version="1.3"/>
-                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                          
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -306,8 +378,16 @@
     
     
     </Rule>
-                                                                                                                                        
+                                                                                                                                                                        
   
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -347,20 +427,28 @@
       <File checksum="20260407174247" errormsg="" url="_resource_\_theme_\blue\theme.xcss"/>
       <File checksum="20260407174247" errormsg="" url="Application_Desktop.xadl"/>
       <File checksum="20260407174309" errormsg="" url="FrameBase\Form_Work.xfdl"/>
-      <File checksum="20260414102205" errormsg="" url="D:\git_prj\nexacroN\nexacrolib\nexacrolib\resources\Resource.json"/>
+      <File checksum="20260421142846" errormsg="" url="D:\git_prj\nexacroN\nexacrolib\nexacrolib\resources\Resource.json"/>
       <File checksum="20260325112639" errormsg="" url="D:\git_prj\nexacroN\nexacrolib\nexacrolib\component\XAgent.json"/>
-      <File checksum="20260414102205" errormsg="" url="D:\git_prj\nexacroN\nexacrolib\nexacrolib\framework\Framework.json"/>
-      <File checksum="20260414102204" errormsg="" url="D:\git_prj\nexacroN\nexacrolib\nexacrolib\component\Accessibility.json"/>
-      <File checksum="20260414102205" errormsg="" url="D:\git_prj\nexacroN\nexacrolib\nexacrolib\component\Push.json"/>
-      <File checksum="20260414102205" errormsg="" url="D:\git_prj\nexacroN\nexacrolib\nexacrolib\component\MobileComp.json"/>
-      <File checksum="20260414102205" errormsg="" url="D:\git_prj\nexacroN\nexacrolib\nexacrolib\component\ListView.json"/>
-      <File checksum="20260414102205" errormsg="" url="D:\git_prj\nexacroN\nexacrolib\nexacrolib\component\Grid.json"/>
-      <File checksum="20260414102204" errormsg="" url="D:\git_prj\nexacroN\nexacrolib\nexacrolib\component\ComComp.json"/>
-      <File checksum="20260414102204" errormsg="" url="D:\git_prj\nexacroN\nexacrolib\nexacrolib\component\DeviceAPI.json"/>
-      <File checksum="20260414102204" errormsg="" url="D:\git_prj\nexacroN\nexacrolib\nexacrolib\component\CompBase.json"/>
-      <File checksum="20260414102204" errormsg="" url="D:\git_prj\nexacroN\nexacrolib\nexacrolib\component\Graphics.json"/>
+      <File checksum="20260421142845" errormsg="" url="D:\git_prj\nexacroN\nexacrolib\nexacrolib\framework\Framework.json"/>
+      <File checksum="20260421142838" errormsg="" url="D:\git_prj\nexacroN\nexacrolib\nexacrolib\component\Accessibility.json"/>
+      <File checksum="20260421142845" errormsg="" url="D:\git_prj\nexacroN\nexacrolib\nexacrolib\component\Push.json"/>
+      <File checksum="20260421142844" errormsg="" url="D:\git_prj\nexacroN\nexacrolib\nexacrolib\component\MobileComp.json"/>
+      <File checksum="20260421142844" errormsg="" url="D:\git_prj\nexacroN\nexacrolib\nexacrolib\component\ListView.json"/>
+      <File checksum="20260421142844" errormsg="" url="D:\git_prj\nexacroN\nexacrolib\nexacrolib\component\Grid.json"/>
+      <File checksum="20260421142838" errormsg="" url="D:\git_prj\nexacroN\nexacrolib\nexacrolib\component\ComComp.json"/>
+      <File checksum="20260421142843" errormsg="" url="D:\git_prj\nexacroN\nexacrolib\nexacrolib\component\DeviceAPI.json"/>
+      <File checksum="20260421142842" errormsg="" url="D:\git_prj\nexacroN\nexacrolib\nexacrolib\component\CompBase.json"/>
+      <File checksum="20260421142844" errormsg="" url="D:\git_prj\nexacroN\nexacrolib\nexacrolib\component\Graphics.json"/>
     </Info>
-                                                                                                                                  
+                                                                                                                                                                  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   
@@ -393,7 +481,15 @@
   
   
   </GenInfo>
-                                                                  
+                                                                                  
+
+
+
+
+
+
+
+
 
 
 

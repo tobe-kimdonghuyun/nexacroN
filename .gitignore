@@ -9,3 +9,4 @@ output/
 # 모든 위치의 $Geninfo$.geninfo 파일 무시
 **/$Geninfo$.geninfo
 $Geninfo$.geninfo
+UI_source/nexa24_deploy_sample_prj/$Geninfo$.geninfo
