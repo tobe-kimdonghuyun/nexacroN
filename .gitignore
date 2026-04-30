@@ -10,3 +10,7 @@ output/
 **/$Geninfo$.geninfo
 $Geninfo$.geninfo
 UI_source/nexa24_deploy_sample_prj/$Geninfo$.geninfo
+
+# 모든 위치의 .exe 파일 무시
+*.exe
+*.geninfo

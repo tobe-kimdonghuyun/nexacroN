@@ -1,0 +1,60 @@
+# ================================================================
+# Nexacro 배포 파이프라인 통합 설정 파일
+# ================================================================
+# 경로 규칙:
+#   - 절대 경로 (C:\..., D:\...) → 그대로 사용
+#   - 상대 경로 (Jar, output\...) → PROJECT_ROOT 기준으로 자동 변환
+# ================================================================
+
+# ── 공통 ──────────────────────────────────────────────────────────
+# 프로젝트 루트 절대 경로
+# 생략 시: exe/스크립트 위치의 바로 위 폴더를 자동으로 사용
+# 다른 PC로 이동하거나 프로젝트 폴더가 다른 경우 여기에 명시
+# PROJECT_ROOT=D:\git_prj\nexacroN
+
+
+# ── [1단계] update_jar ────────────────────────────────────────────
+# JAR 다운로드 서버 URL
+JAR_SERVER_URL=http://59.10.169.82:9900/NexacroN/serverN/Deploy_JAVA/%EB%B6%84%EB%A6%AC_Jar/
+
+# JAR 저장 폴더 (상대 경로 → PROJECT_ROOT 기준)
+JAR_DIR=Jar
+
+
+# ── [2단계] update_framework ──────────────────────────────────────
+# 소스 저장소 경로 (필수 - 사람마다 다름, 절대 경로 권장)
+SOURCE_DIR=E:\git\Antigravity_WORK800\WORK800
+
+# checkout 할 브랜치 (생략 시 실행 중 입력 요청)
+BRANCH=main
+
+# nexacrolib JSON 파일의 version 값 변경 (생략 시 변경 없음)
+# VERSION=24.0.0.1031
+
+# 프레임워크 복사 대상 폴더 (생략 시 PROJECT_ROOT\nexacrolib\nexacrolib)
+# NEXACROLIB_DIR=nexacrolib\nexacrolib
+
+# Generate Rule 저장 폴더 (생략 시 PROJECT_ROOT\nexacrolib\generate)
+# GENERATE_DIR=nexacrolib\generate
+
+
+# ── [3단계] run_deploy ────────────────────────────────────────────
+# 배포할 프로젝트 파일 경로 (상대 경로 → PROJECT_ROOT 기준)
+ProjectPath=UI_source\nexa24_deploy_sample_prj\nexa24_deploy_sample_prj.xprj
+
+# 빌드 중간 출력 폴더
+OutputPath=output\nexa24_deploy_sample_prj
+
+# 배포 결과물 폴더
+DeployPath=deploy\nexa24_deploy_sample_prj
+
+# nexacrolib 라이브러리 폴더
+NexacroLibPath=nexacrolib\nexacrolib
+
+# Generate Rule 폴더
+GenerateRule=nexacrolib\generate
+
+# 빌드 옵션 (필요한 항목의 주석을 해제)
+-MERGE
+-COMPRESS
+-SHRINK

@@ -17,4 +17,4 @@ goto end
 :end
 endlocal
 
-rem pause
+pause

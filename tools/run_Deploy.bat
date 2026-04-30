@@ -1,13 +1,50 @@
 @echo off
 setlocal enabledelayedexpansion
 
+set "OPT_IGNORE=0"
+set "OPT_CONFIG="
+:parse_args
+if "%~1"=="" goto done_args
+if /i "%~1"=="-ignore" ( set "OPT_IGNORE=1" & shift & goto parse_args )
+if /i "%~1"=="-config" ( set "OPT_CONFIG=%~2" & shift & shift & goto parse_args )
+shift & goto parse_args
+:done_args
+
 set SCRIPT_DIR=%~dp0
-set CONFIG_FILE=%SCRIPT_DIR%deploy_config.txt
+if not "!OPT_CONFIG!"=="" (
+    rem -config 옵션 지정 시: 전체 경로면 그대로, 파일명만이면 tools 폴더 기준
+    if exist "!OPT_CONFIG!" (
+        set "CONFIG_FILE=!OPT_CONFIG!"
+    ) else (
+        set "CONFIG_FILE=%SCRIPT_DIR%!OPT_CONFIG!"
+    )
+) else (
+    rem -config 없음: deploy_config*.txt 자동 탐색
+    set "_CNT=0"
+    for %%F in ("%SCRIPT_DIR%deploy_config*.txt") do set /a _CNT+=1
+
+    if "!_CNT!"=="0" (
+        set "CONFIG_FILE=%SCRIPT_DIR%deploy_config.txt"
+    ) else if "!_CNT!"=="1" (
+        for %%F in ("%SCRIPT_DIR%deploy_config*.txt") do set "CONFIG_FILE=%%~fF"
+        echo [INFO] Config 자동 선택: !CONFIG_FILE!
+    ) else (
+        echo [INFO] 여러 config 파일이 발견되었습니다:
+        for %%F in ("%SCRIPT_DIR%deploy_config*.txt") do echo        - %%~nxF
+        echo.
+        set /p "_SEL=사용할 파일명을 입력하세요: "
+        if "!_SEL!"=="" (
+            set "CONFIG_FILE=%SCRIPT_DIR%deploy_config.txt"
+        ) else (
+            set "CONFIG_FILE=%SCRIPT_DIR%!_SEL!"
+        )
+    )
+)
 set START_BAT=D:\git_prj\nexacroN\Jar\bin\start.bat
 
-rem --- 1. Check deploy_config.txt exists ---
-if not exist "%CONFIG_FILE%" (
-    echo [ERROR] deploy_config.txt not found: %CONFIG_FILE%
+rem --- 1. Check config file exists ---
+if not exist "!CONFIG_FILE!" (
+    echo [ERROR] Config file not found: !CONFIG_FILE!
     exit /b 1
 )
 
@@ -268,20 +305,32 @@ for /f "usebackq delims=" %%J in (`dir /b /s /a-d "%ENGINE_DIR%\nexacrolib\*.jso
 )
 echo [INFO] Version replacement done. Processed !VER_COUNT! file(s).
 
-rem --- 13. Compress deploy_engine subfolders into nexacrolib_merge_compress_shrink.zip ---
-set "ZIP_OUT=%ENGINE_DIR%\nexacrolib_Merge_Compress_Shrink.zip"
-for %%Z in ("%ZIP_OUT%") do set "ZIP_OUT=%%~fZ"
-
-echo.
-echo [INFO] Compressing deploy_engine to: %ZIP_OUT%
-if exist "%ZIP_OUT%" del /q "%ZIP_OUT%"
-
-powershell -NoProfile -ExecutionPolicy Bypass -Command ^
-    "Compress-Archive -Path '%ENGINE_DIR%\*' -DestinationPath '%ZIP_OUT%'"
-if errorlevel 1 (
-    echo [WARN] Failed to create nexacrolib_merge_compress_shrink.zip
+rem --- 13. Compress deploy_engine subfolders into nexacrolib_Merge_Compress_Shrink(version).zip ---
+if "!OPT_IGNORE!"=="1" (
+    echo.
+    echo [INFO] Skipping zip creation (-ignore option set^).
 ) else (
-    echo [INFO] nexacrolib_merge_compress_shrink.zip created: %ZIP_OUT%
+    rem deploy_engine\nexacrolib\nexacrolib.json 에서 version 값 읽기
+    set "JSON_VER="
+    for /f "usebackq delims=" %%V in (`powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0get_version.ps1" -JsonFile "!ENGINE_DIR!\nexacrolib\nexacrolib.json"`) do set "JSON_VER=%%V"
+
+    if "!JSON_VER!"=="" (
+        set "ZIP_OUT=!ENGINE_DIR!\nexacrolib_Merge_Compress_Shrink.zip"
+    ) else (
+        set "ZIP_OUT=!ENGINE_DIR!\nexacrolib_Merge_Compress_Shrink(!JSON_VER!).zip"
+    )
+    for %%Z in ("!ZIP_OUT!") do set "ZIP_OUT=%%~fZ"
+
+    echo.
+    echo [INFO] Compressing deploy_engine to: !ZIP_OUT!
+    if exist "!ZIP_OUT!" del /q "!ZIP_OUT!"
+
+    powershell -NoProfile -ExecutionPolicy Bypass -Command "Compress-Archive -Path '!ENGINE_DIR!\*' -DestinationPath '!ZIP_OUT!'"
+    if errorlevel 1 (
+        echo [WARN] Failed to create zip
+    ) else (
+        echo [INFO] zip created: !ZIP_OUT!
+    )
 )
 
 endlocal
