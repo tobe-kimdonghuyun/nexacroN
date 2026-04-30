@@ -8,12 +8,12 @@ import sys
 import zipfile
 from pathlib import Path
 
-from common import (base_dir, find_config, get_project_root,
-                    load_config, resolve_path, setup_stdio)
+from common import (base_dir, find_config, get_project_root, load_config,
+                    log_debug, log_error, log_info, log_warn,
+                    resolve_path, set_log_level, setup_stdio)
 
 UTF8_BOM = b"\xef\xbb\xbf"
 
-# run() / main() 에서 설정되는 전역 변수
 SOURCE_DIR    = Path()
 FRAMEWORK_SRC = Path()
 GEN_SRC1      = Path()
@@ -31,13 +31,13 @@ def git(args: list[str], cwd: Path) -> str:
         encoding="utf-8", errors="replace",
     )
     if result.returncode != 0:
-        print(f"[ERROR] git {' '.join(args)} 실패\n{result.stderr.strip()}")
+        log_error(f"git {' '.join(args)} 실패\n{result.stderr.strip()}")
         sys.exit(result.returncode)
     return result.stdout.strip()
 
 
 def step1_git_update(branch: str) -> tuple[str, str]:
-    print(f"[1/5] 소스 저장소 업데이트: {SOURCE_DIR}  (branch: {branch})")
+    log_info(f"[1/5] 소스 저장소 업데이트: {SOURCE_DIR}  (branch: {branch})")
     git(["checkout", branch], SOURCE_DIR)
     git(["pull", "origin", branch], SOURCE_DIR)
     commit_hash = git(["rev-parse", "HEAD"], SOURCE_DIR)
@@ -54,19 +54,21 @@ def copy_dir(src: Path, dst: Path) -> None:
 
 
 def step2_copy_framework(dest_dir: Path) -> bool:
-    print(f"[2/5] 프레임워크 복사 -> {dest_dir}")
+    log_info(f"[2/5] 프레임워크 복사 -> {dest_dir}")
     dest_dir.mkdir(parents=True, exist_ok=True)
     ok = True
     for folder in ("component", "framework", "resources"):
         try:
             copy_dir(FRAMEWORK_SRC / folder, dest_dir / folder)
+            log_debug(f"      {folder} 복사 완료")
         except Exception as e:
-            print(f"[ERROR] {folder} 복사 실패: {e}")
+            log_error(f"{folder} 복사 실패: {e}")
             ok = False
     try:
         shutil.copy2(FRAMEWORK_SRC / "nexacrolib.json", dest_dir / "nexacrolib.json")
+        log_debug("      nexacrolib.json 복사 완료")
     except Exception as e:
-        print(f"[ERROR] nexacrolib.json 복사 실패: {e}")
+        log_error(f"nexacrolib.json 복사 실패: {e}")
         ok = False
     return ok
 
@@ -74,7 +76,7 @@ def step2_copy_framework(dest_dir: Path) -> bool:
 # ── version 변경 ──────────────────────────────────────────────────────────────
 
 def step_update_version(dest_dir: Path, version: str) -> bool:
-    print(f"[INFO] JSON version -> {version}")
+    log_info(f"[INFO] JSON version -> {version}")
     replacement = f'"version":"{version}"'
     changed = 0
     ok = True
@@ -84,12 +86,12 @@ def step_update_version(dest_dir: Path, version: str) -> bool:
             new_content = VERSION_PATTERN.sub(replacement, content)
             if content != new_content:
                 json_file.write_text(new_content, encoding="utf-8")
-                print(f"[CHANGED] {json_file.name}")
+                log_debug(f"      [CHANGED] {json_file.name}")
                 changed += 1
         except Exception as e:
-            print(f"[WARN] {json_file.name} 처리 실패: {e}")
+            log_warn(f"{json_file.name} 처리 실패: {e}")
             ok = False
-    print(f"[INFO] 변경된 파일: {changed}개")
+    log_info(f"[INFO] 변경된 파일: {changed}개")
     return ok
 
 
@@ -105,7 +107,7 @@ def _decode(raw: bytes) -> str:
 
 
 def step3_convert_utf8bom(dest_dir: Path) -> bool:
-    print(f"[3/5] JS 파일 UTF-8 BOM 변환: {dest_dir}")
+    log_info(f"[3/5] JS 파일 UTF-8 BOM 변환: {dest_dir}")
     converted = 0
     ok = True
     for js_file in dest_dir.rglob("*.js"):
@@ -116,16 +118,16 @@ def step3_convert_utf8bom(dest_dir: Path) -> bool:
             js_file.write_bytes(UTF8_BOM + _decode(raw).encode("utf-8"))
             converted += 1
         except Exception as e:
-            print(f"[WARN] {js_file.name} 변환 실패: {e}")
+            log_warn(f"{js_file.name} 변환 실패: {e}")
             ok = False
-    print(f"[INFO] 변환된 파일: {converted}개")
+    log_info(f"[INFO] 변환된 파일: {converted}개")
     return ok
 
 
 # ── Generate Rule 복사 ────────────────────────────────────────────────────────
 
 def step4_copy_generate(gen_dest: Path) -> bool:
-    print(f"[4/5] Generate Rule 복사 -> {gen_dest}")
+    log_info(f"[4/5] Generate Rule 복사 -> {gen_dest}")
     if gen_dest.exists():
         shutil.rmtree(gen_dest)
     gen_dest.mkdir(parents=True)
@@ -138,8 +140,9 @@ def step4_copy_generate(gen_dest: Path) -> bool:
                     shutil.copytree(item, dst, dirs_exist_ok=True)
                 else:
                     shutil.copy2(item, dst)
+            log_debug(f"      {src.name} 복사 완료")
         except Exception as e:
-            print(f"[ERROR] Generate Rule 복사 실패 ({src.name}): {e}")
+            log_error(f"Generate Rule 복사 실패 ({src.name}): {e}")
             ok = False
     return ok
 
@@ -160,7 +163,7 @@ def step5_zip(nexacrolib_root: Path, dest_dir: Path, gen_dest: Path) -> bool:
     version_tag = f"({version})" if version else ""
     zip_name    = f"nexacrolib_noMerge_noCompress_noShrink{version_tag}.zip"
     zip_out     = nexacrolib_root / zip_name
-    print(f"[5/5] zip 압축 -> {zip_out}")
+    log_info(f"[5/5] zip 압축 -> {zip_out}")
     if zip_out.exists():
         zip_out.unlink()
     try:
@@ -170,10 +173,10 @@ def step5_zip(nexacrolib_root: Path, dest_dir: Path, gen_dest: Path) -> bool:
                 for f in folder.rglob("*"):
                     if f.is_file():
                         zf.write(f, f.relative_to(base))
-        print(f"[INFO] zip 생성 완료: {zip_out}")
+        log_info(f"[INFO] zip 생성 완료: {zip_out}")
         return True
     except Exception as e:
-        print(f"[WARN] zip 생성 실패: {e}")
+        log_warn(f"zip 생성 실패: {e}")
         return False
 
 
@@ -181,7 +184,6 @@ def step5_zip(nexacrolib_root: Path, dest_dir: Path, gen_dest: Path) -> bool:
 
 def run(cfg: dict[str, str], root: Path,
         branch: str = "", version: str = "", ignore: bool = False) -> None:
-    """pipeline 또는 단독 실행 공통 진입점."""
     global SOURCE_DIR, FRAMEWORK_SRC, GEN_SRC1, GEN_SRC2
 
     if "SOURCE_DIR" not in cfg:
@@ -218,19 +220,19 @@ def run(cfg: dict[str, str], root: Path,
         ok = False
 
     if ignore:
-        print("\n[5/5] zip 생성 건너뜀 (-ignore)")
+        log_info("\n[5/5] zip 생성 건너뜀 (-ignore)")
     else:
         if not step5_zip(nexroot, dest, gen):
             ok = False
 
     print()
     if ok:
-        print("[SUCCESS] 프레임워크 업데이트 완료")
-        print(f"          Branch  : {branch}")
-        print(f"          Hash    : {commit_hash}")
-        print(f"          Message : {commit_msg}")
+        log_info("[SUCCESS] 프레임워크 업데이트 완료")
+        log_info(f"          Branch  : {branch}")
+        log_info(f"          Hash    : {commit_hash}")
+        log_info(f"          Message : {commit_msg}")
         if version:
-            print(f"          Version : {version}")
+            log_info(f"          Version : {version}")
     else:
         raise RuntimeError("일부 단계가 실패했습니다.")
 
@@ -240,10 +242,10 @@ def _parse_args() -> argparse.Namespace:
         description="Nexacro 프레임워크 업데이트",
         allow_abbrev=False,
     )
-    parser.add_argument("branch",   nargs="?", default=None, help="브랜치명 (생략 시 입력 요청)")
-    parser.add_argument("-config",  metavar="FILE", help="config 파일 경로/파일명")
-    parser.add_argument("-version", metavar="VER",  help="version 값 변경")
-    parser.add_argument("-ignore",  action="store_true", help="zip 생성 건너뜀")
+    parser.add_argument("branch",   nargs="?", default=None)
+    parser.add_argument("-config",  metavar="FILE")
+    parser.add_argument("-version", metavar="VER")
+    parser.add_argument("-ignore",  action="store_true")
     return parser.parse_args()
 
 
@@ -260,6 +262,7 @@ def main() -> None:
 
     cfg  = load_config(cfg_path) if cfg_path and cfg_path.exists() else {}
     root = get_project_root(cfg)
+    set_log_level(cfg.get("LOG", "DEBUG"))
 
     try:
         run(cfg, root,
@@ -267,7 +270,7 @@ def main() -> None:
             version=args.version or "",
             ignore=args.ignore)
     except Exception as e:
-        print(f"\n[ERROR] {e}")
+        log_error(str(e))
         sys.exit(1)
 
 

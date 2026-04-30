@@ -3,6 +3,38 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+# ── 로그 레벨 ─────────────────────────────────────────────────────────────────
+# INFO  : 단계 시작/완료, 수치 요약, 경고, 에러 (간소화)
+# DEBUG : INFO 포함 + 파일별 상세 처리, 진행률 (현재 동작)
+
+_LOG_LEVEL = "DEBUG"  # 기본값
+
+
+def set_log_level(level: str) -> None:
+    global _LOG_LEVEL
+    _LOG_LEVEL = level.strip().upper()
+
+
+def log_info(msg: str, end: str = "\n") -> None:
+    """INFO 이상에서 항상 출력."""
+    print(msg, end=end, flush=True)
+
+
+def log_debug(msg: str, end: str = "\n") -> None:
+    """DEBUG 레벨에서만 출력."""
+    if _LOG_LEVEL == "DEBUG":
+        print(msg, end=end, flush=True)
+
+
+def log_warn(msg: str) -> None:
+    """경고 — 항상 출력."""
+    print(f"[WARN] {msg}", flush=True)
+
+
+def log_error(msg: str) -> None:
+    """에러 — 항상 출력."""
+    print(f"[ERROR] {msg}", flush=True)
+
 
 def base_dir() -> Path:
     """PyInstaller exe 또는 .py 스크립트 위치를 반환."""

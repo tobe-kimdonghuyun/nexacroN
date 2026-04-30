@@ -9,26 +9,26 @@ import sys
 import zipfile
 from pathlib import Path
 
-from common import (base_dir, find_config, get_project_root,
-                    load_config, resolve_path, setup_stdio)
+from common import (base_dir, find_config, get_project_root, load_config,
+                    log_debug, log_error, log_info, log_warn,
+                    resolve_path, set_log_level, setup_stdio)
 
 try:
     import winreg
 except ImportError:
     winreg = None  # type: ignore[assignment]
 
-VERSION_PATTERN  = re.compile(r'"version"\s*:\s*"([^"]+)"')
+VERSION_PATTERN   = re.compile(r'"version"\s*:\s*"([^"]+)"')
 COMPONENT_FOLDERS = [
     "ComComp", "CompBase", "CompBaseEx", "DesignComp", "DeviceAPI",
     "Graphics", "Grid", "ListView", "MobileComp", "Push", "XAgent",
 ]
 
-# run() / main() 에서 설정되는 전역 변수
 PROJECT_ROOT = Path()
 START_BAT    = Path()
 
 
-# ── config 파싱 / 검증 ────────────────────────────────────────────────────────
+# ── config 검증 ───────────────────────────────────────────────────────────────
 
 def _validate(cfg: dict[str, str]) -> None:
     required = ["ProjectPath", "OutputPath", "DeployPath", "NexacroLibPath", "GenerateRule"]
@@ -44,7 +44,7 @@ def find_java_home() -> str:
     if java_home:
         return java_home
 
-    print("[INFO] JAVA_HOME 미설정. 자동 탐색 중...")
+    log_info("[INFO] JAVA_HOME 미설정. 자동 탐색 중...")
 
     fixed = Path(r"C:\microsoft-jdk-21.0.9-windows-x64\jdk-21.0.9+10")
     if (fixed / "bin" / "java.exe").exists():
@@ -73,10 +73,10 @@ def find_java_home() -> str:
 def step4_clean_dirs(output: Path, deploy: Path) -> None:
     for p in (output, deploy):
         if p.exists():
-            print(f"[INFO] 삭제: {p}")
+            log_debug(f"[INFO] 삭제: {p}")
             shutil.rmtree(p)
         p.mkdir(parents=True)
-        print(f"[INFO] 생성: {p}")
+        log_debug(f"[INFO] 생성: {p}")
 
 
 def step8_run_deploy(cfg: dict[str, str], root: Path, java_home: str) -> None:
@@ -95,14 +95,16 @@ def step8_run_deploy(cfg: dict[str, str], root: Path, java_home: str) -> None:
     if cfg.get("-COMPRESS"): cmd.append("-COMPRESS")
     if cfg.get("-SHRINK"):   cmd.append("-SHRINK")
 
-    print(f"[INFO] 실행 명령: {' '.join(cmd)}")
-    result = subprocess.run(cmd, cwd=START_BAT.parent, env=env)
+    log_info(f"[INFO] 배포 실행: {START_BAT.name}")
+    log_debug(f"[INFO] 실행 명령: {' '.join(cmd)}")
+    result = subprocess.run(cmd, cwd=START_BAT.parent, env=env,
+                            stdin=subprocess.DEVNULL)
     if result.returncode != 0:
         raise RuntimeError(f"배포 실행 실패 (exit code: {result.returncode})")
 
 
 def step9_build_engine(cfg: dict[str, str], root: Path, engine_dir: Path) -> None:
-    print(f"\n[INFO] deploy_engine 생성: {engine_dir}")
+    log_info(f"[INFO] deploy_engine 생성: {engine_dir}")
     if engine_dir.exists():
         shutil.rmtree(engine_dir)
     engine_dir.mkdir(parents=True)
@@ -110,16 +112,16 @@ def step9_build_engine(cfg: dict[str, str], root: Path, engine_dir: Path) -> Non
     nexlib_src = resolve_path(cfg["DeployPath"], root) / "nexacrolib"
     if nexlib_src.exists():
         shutil.copytree(nexlib_src, engine_dir / "nexacrolib")
-        print("[INFO] nexacrolib 복사 완료")
+        log_debug("[INFO] nexacrolib 복사 완료")
     else:
-        print(f"[WARN] nexacrolib 없음: {nexlib_src}")
+        log_warn(f"nexacrolib 없음: {nexlib_src}")
 
     gr_src = resolve_path(cfg["GenerateRule"], root)
     if gr_src.exists():
         shutil.copytree(gr_src, engine_dir / gr_src.name)
-        print(f"[INFO] GenerateRule 복사 완료: {gr_src.name}")
+        log_debug(f"[INFO] GenerateRule 복사 완료: {gr_src.name}")
     else:
-        print(f"[WARN] GenerateRule 없음: {gr_src}")
+        log_warn(f"GenerateRule 없음: {gr_src}")
 
 
 def step10_copy_components(engine_dir: Path) -> None:
@@ -131,7 +133,7 @@ def step10_copy_components(engine_dir: Path) -> None:
         1 for f in comp_src.glob("*.json")
         if shutil.copy2(f, comp_dest / f.name) or True
     )
-    print(f"[INFO] component JSON 복사: {count}개")
+    log_info(f"[INFO] component JSON 복사: {count}개")
 
     for folder in COMPONENT_FOLDERS:
         src_folder = comp_src / folder
@@ -139,13 +141,13 @@ def step10_copy_components(engine_dir: Path) -> None:
             continue
         for sub in (d for d in src_folder.iterdir() if d.is_dir()):
             shutil.copytree(sub, comp_dest / folder / sub.name, dirs_exist_ok=True)
-    print("[INFO] component 하위 폴더 복사 완료")
+    log_debug("[INFO] component 하위 폴더 복사 완료")
 
 
 def step10_1_replace_min_json(engine_dir: Path) -> None:
     comp_dest = engine_dir / "nexacrolib" / "component"
     if not comp_dest.exists():
-        print("[WARN] component 폴더 없음, min.json 교체 건너뜀")
+        log_warn("component 폴더 없음, min.json 교체 건너뜀")
         return
     replaced = 0
     for min_file in comp_dest.rglob("*.min.json"):
@@ -154,7 +156,7 @@ def step10_1_replace_min_json(engine_dir: Path) -> None:
             base_file.unlink()
         min_file.rename(base_file)
         replaced += 1
-    print(f"[INFO] min.json 교체: {replaced}개" if replaced else "[INFO] *.min.json 없음")
+    log_info(f"[INFO] min.json 교체: {replaced}개" if replaced else "[INFO] *.min.json 없음, 건너뜀")
 
 
 def step10_2_copy_nexacrolib_json(engine_dir: Path) -> None:
@@ -162,9 +164,9 @@ def step10_2_copy_nexacrolib_json(engine_dir: Path) -> None:
     dst = engine_dir / "nexacrolib" / "nexacrolib.json"
     if src.exists():
         shutil.copy2(src, dst)
-        print("[INFO] nexacrolib.json 복사 완료")
+        log_debug("[INFO] nexacrolib.json 복사 완료")
     else:
-        print(f"[WARN] nexacrolib.json 없음: {src}")
+        log_warn(f"nexacrolib.json 없음: {src}")
 
 
 def step10_3_copy_designcomp(engine_dir: Path) -> None:
@@ -172,9 +174,9 @@ def step10_3_copy_designcomp(engine_dir: Path) -> None:
     dst = engine_dir / "nexacrolib" / "component" / "DesignComp"
     if src.exists():
         shutil.copytree(src, dst, dirs_exist_ok=True)
-        print("[INFO] DesignComp 복사 완료")
+        log_debug("[INFO] DesignComp 복사 완료")
     else:
-        print(f"[WARN] DesignComp 없음: {src}")
+        log_warn(f"DesignComp 없음: {src}")
 
 
 def step10_4_copy_resource_json(engine_dir: Path) -> None:
@@ -183,9 +185,9 @@ def step10_4_copy_resource_json(engine_dir: Path) -> None:
     dst.parent.mkdir(parents=True, exist_ok=True)
     if src.exists():
         shutil.copy2(src, dst)
-        print("[INFO] Resource.json 복사 완료")
+        log_debug("[INFO] Resource.json 복사 완료")
     else:
-        print(f"[WARN] Resource.json 없음: {src}")
+        log_warn(f"Resource.json 없음: {src}")
 
 
 def step11_copy_framework(engine_dir: Path) -> None:
@@ -196,18 +198,20 @@ def step11_copy_framework(engine_dir: Path) -> None:
     min_json = fw_src / "Framework.min.json"
     if min_json.exists():
         shutil.copy2(min_json, fw_dest / "Framework.json")
-        print("[INFO] Framework.min.json -> Framework.json 완료")
+        log_debug("[INFO] Framework.min.json -> Framework.json 완료")
     else:
-        print(f"[WARN] Framework.min.json 없음: {min_json}")
+        log_warn(f"Framework.min.json 없음: {min_json}")
 
     metainfo = fw_src / "metainfo"
     if metainfo.exists():
         shutil.copytree(metainfo, fw_dest / "metainfo", dirs_exist_ok=True)
-        print("[INFO] metainfo 복사 완료")
+        log_debug("[INFO] metainfo 복사 완료")
+    else:
+        log_warn(f"metainfo 없음: {metainfo}")
 
 
 def step12_replace_version(engine_dir: Path) -> None:
-    print(f"\n[INFO] version 문자열 교체: {engine_dir / 'nexacrolib'}")
+    log_info(f"\n[INFO] version 문자열 교체: {engine_dir / 'nexacrolib'}")
     pattern     = re.compile(r'"version"\s*:\s*"21\.0\.0\.9999"')
     replacement = '"version": "24.0.0.9999"'
     count = 0
@@ -219,13 +223,13 @@ def step12_replace_version(engine_dir: Path) -> None:
                 json_file.write_text(new_content, encoding="utf-8")
                 count += 1
         except Exception as e:
-            print(f"[WARN] {json_file.name} 처리 실패: {e}")
-    print(f"[INFO] version 교체 완료: {count}개")
+            log_warn(f"{json_file.name} 처리 실패: {e}")
+    log_info(f"[INFO] version 교체 완료: {count}개")
 
 
 def step13_zip(engine_dir: Path, ignore: bool) -> None:
     if ignore:
-        print("\n[INFO] zip 생성 건너뜀 (-ignore)")
+        log_info("\n[INFO] zip 생성 건너뜀 (-ignore)")
         return
 
     nexlib_json = engine_dir / "nexacrolib" / "nexacrolib.json"
@@ -241,7 +245,7 @@ def step13_zip(engine_dir: Path, ignore: bool) -> None:
     zip_name    = f"nexacrolib_Merge_Compress_Shrink{version_tag}.zip"
     zip_out     = engine_dir / zip_name
 
-    print(f"\n[INFO] zip 압축: {zip_out}")
+    log_info(f"\n[INFO] zip 압축: {zip_out}")
     if zip_out.exists():
         zip_out.unlink()
 
@@ -250,15 +254,14 @@ def step13_zip(engine_dir: Path, ignore: bool) -> None:
             for f in engine_dir.rglob("*"):
                 if f.is_file() and f != zip_out:
                     zf.write(f, f.relative_to(engine_dir))
-        print(f"[INFO] zip 생성 완료: {zip_out}")
+        log_info(f"[INFO] zip 생성 완료: {zip_out}")
     except Exception as e:
-        print(f"[WARN] zip 생성 실패: {e}")
+        log_warn(f"zip 생성 실패: {e}")
 
 
 # ── run / main ────────────────────────────────────────────────────────────────
 
 def run(cfg: dict[str, str], root: Path, ignore: bool = False) -> None:
-    """pipeline 또는 단독 실행 공통 진입점."""
     global PROJECT_ROOT, START_BAT
     PROJECT_ROOT = root
     START_BAT    = root / "Jar" / "bin" / "start.bat"
@@ -272,7 +275,7 @@ def run(cfg: dict[str, str], root: Path, ignore: bool = False) -> None:
     step4_clean_dirs(output_path, deploy_path)
 
     java_home = find_java_home()
-    print(f"[INFO] JAVA_HOME: {java_home}")
+    log_info(f"[INFO] JAVA_HOME: {java_home}")
 
     if not START_BAT.exists():
         raise FileNotFoundError(f"start.bat 없음: {START_BAT}")
@@ -288,7 +291,7 @@ def run(cfg: dict[str, str], root: Path, ignore: bool = False) -> None:
     step12_replace_version(engine_dir)
     step13_zip(engine_dir, ignore)
 
-    print("\n[SUCCESS] 배포 완료")
+    log_info("\n[SUCCESS] 배포 완료")
 
 
 def _parse_args() -> argparse.Namespace:
@@ -296,8 +299,8 @@ def _parse_args() -> argparse.Namespace:
         description="Nexacro 배포 파이프라인",
         allow_abbrev=False,
     )
-    parser.add_argument("-config", metavar="FILE", help="config 파일 경로/파일명")
-    parser.add_argument("-ignore", action="store_true", help="zip 생성 건너뜀")
+    parser.add_argument("-config", metavar="FILE")
+    parser.add_argument("-ignore", action="store_true")
     return parser.parse_args()
 
 
@@ -313,16 +316,17 @@ def main() -> None:
         cfg_path = find_config(script_dir)
 
     if not cfg_path or not cfg_path.exists():
-        print("[ERROR] config 파일을 찾을 수 없습니다.")
+        log_error("config 파일을 찾을 수 없습니다.")
         sys.exit(1)
 
     cfg  = load_config(cfg_path)
     root = get_project_root(cfg)
+    set_log_level(cfg.get("LOG", "DEBUG"))
 
     try:
         run(cfg, root, ignore=args.ignore)
     except Exception as e:
-        print(f"\n[ERROR] {e}")
+        log_error(str(e))
         sys.exit(1)
 
 

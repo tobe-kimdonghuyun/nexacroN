@@ -4,8 +4,8 @@ import argparse
 import sys
 from pathlib import Path
 
-from common import (base_dir, find_config, get_project_root,
-                    load_config, setup_stdio)
+from common import (base_dir, find_config, get_project_root, load_config,
+                    log_info, log_error, set_log_level, setup_stdio)
 import update_jar
 import update_framework
 import run_deploy
@@ -33,9 +33,9 @@ def parse_args() -> argparse.Namespace:
 
 def _separator(title: str) -> None:
     bar = "=" * 60
-    print(f"\n{bar}")
-    print(f"  {title}")
-    print(f"{bar}")
+    log_info(f"\n{bar}")
+    log_info(f"  {title}")
+    log_info(f"{bar}")
 
 
 def main() -> None:
@@ -48,25 +48,33 @@ def main() -> None:
         p        = Path(args.config)
         cfg_path = p if p.is_absolute() and p.exists() else script_dir / args.config
         if not cfg_path.exists():
-            print(f"[ERROR] config 파일을 찾을 수 없습니다: {cfg_path}")
+            log_error(f"config 파일을 찾을 수 없습니다: {cfg_path}")
             sys.exit(1)
     else:
         cfg_path = find_config(script_dir)
         if not cfg_path:
-            print("[ERROR] nexacro_config*.txt 파일을 찾을 수 없습니다.")
-            print("        nexacro_config.txt 를 생성하고 설정을 입력하세요.")
+            log_error("nexacro_config*.txt 파일을 찾을 수 없습니다.")
+            log_error("nexacro_config.txt 를 생성하고 설정을 입력하세요.")
             sys.exit(1)
 
-    print(f"[INFO] Config: {cfg_path}")
+    log_info(f"[INFO] Config: {cfg_path}")
     cfg  = load_config(cfg_path)
     root = get_project_root(cfg)
-    print(f"[INFO] PROJECT_ROOT: {root}")
+    set_log_level(cfg.get("LOG", "DEBUG"))
+    log_info(f"[INFO] PROJECT_ROOT: {root}")
+    log_info(f"[INFO] LOG 레벨: {cfg.get('LOG', 'DEBUG')}")
+
+    # 인자 우선, 없으면 config 값 사용
+    skip_jar       = args.skip_jar       or cfg.get("SKIP_JAR",       "0") == "1"
+    skip_framework = args.skip_framework or cfg.get("SKIP_FRAMEWORK", "0") == "1"
+    skip_deploy    = args.skip_deploy    or cfg.get("SKIP_DEPLOY",    "0") == "1"
+    ignore         = args.ignore         or cfg.get("IGNORE",         "0") == "1"
 
     results: dict[str, str] = {}
 
     # ── [1단계] update_jar ───────────────────────────────────────
-    if args.skip_jar:
-        print("\n[1/3] JAR 업데이트 건너뜀 (-skip-jar)")
+    if skip_jar:
+        log_info("\n[1/3] JAR 업데이트 건너뜀 (SKIP_JAR)")
         results["JAR"] = "SKIPPED"
     else:
         _separator("[1/3] JAR 업데이트")
@@ -74,13 +82,13 @@ def main() -> None:
             update_jar.run(cfg, root)
             results["JAR"] = "OK"
         except Exception as e:
-            print(f"\n[ERROR] JAR 업데이트 실패: {e}")
+            log_error(f"JAR 업데이트 실패: {e}")
             results["JAR"] = f"FAILED: {e}"
             sys.exit(1)
 
     # ── [2단계] update_framework ─────────────────────────────────
-    if args.skip_framework:
-        print("\n[2/3] 프레임워크 업데이트 건너뜀 (-skip-framework)")
+    if skip_framework:
+        log_info("\n[2/3] 프레임워크 업데이트 건너뜀 (SKIP_FRAMEWORK)")
         results["FRAMEWORK"] = "SKIPPED"
     else:
         _separator("[2/3] 프레임워크 업데이트")
@@ -89,25 +97,25 @@ def main() -> None:
                 cfg, root,
                 branch=args.branch  or "",
                 version=args.version or "",
-                ignore=args.ignore,
+                ignore=ignore,
             )
             results["FRAMEWORK"] = "OK"
         except Exception as e:
-            print(f"\n[ERROR] 프레임워크 업데이트 실패: {e}")
+            log_error(f"프레임워크 업데이트 실패: {e}")
             results["FRAMEWORK"] = f"FAILED: {e}"
             sys.exit(1)
 
     # ── [3단계] run_deploy ───────────────────────────────────────
-    if args.skip_deploy:
-        print("\n[3/3] 배포 건너뜀 (-skip-deploy)")
+    if skip_deploy:
+        log_info("\n[3/3] 배포 건너뜀 (SKIP_DEPLOY)")
         results["DEPLOY"] = "SKIPPED"
     else:
         _separator("[3/3] 배포")
         try:
-            run_deploy.run(cfg, root, ignore=args.ignore)
+            run_deploy.run(cfg, root, ignore=ignore)
             results["DEPLOY"] = "OK"
         except Exception as e:
-            print(f"\n[ERROR] 배포 실패: {e}")
+            log_error(f"배포 실패: {e}")
             results["DEPLOY"] = f"FAILED: {e}"
             sys.exit(1)
 
@@ -115,8 +123,8 @@ def main() -> None:
     _separator("파이프라인 완료")
     for step, status in results.items():
         icon = "✓" if status in ("OK", "SKIPPED") else "✗"
-        print(f"  {icon}  {step:<12} {status}")
-    print()
+        log_info(f"  {icon}  {step:<12} {status}")
+    log_info("")
 
 
 if __name__ == "__main__":
