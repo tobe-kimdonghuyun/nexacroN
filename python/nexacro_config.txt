@@ -17,6 +17,11 @@ LOG=INFO
 # 다른 PC로 이동하거나 프로젝트 폴더가 다른 경우 여기에 명시
 # PROJECT_ROOT=D:\git_prj\nexacroN
 
+# Java 설치 경로
+# 생략 시: JAVA_HOME 환경변수 → 기본 설치 경로 → Windows 레지스트리 → PATH 순서로 자동 탐색
+# 자동 탐색이 실패하거나 PC별로 명시가 필요하면 주석을 해제하고 해당 PC의 JDK/JRE 경로를 입력
+# JAVA_HOME=C:\Program Files\Microsoft\jdk-21.0.10.7-hotspot
+
 
 # ── 파이프라인 동작 제어 ───────────────────────────────────────────
 # 각 단계 실행 여부 (1=건너뜀, 0=실행 / 기본값: 0)

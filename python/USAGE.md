@@ -180,6 +180,7 @@ nexacroN\
 | 키 | 필수 | 기본값 | 설명 |
 |---|---|---|---|
 | `PROJECT_ROOT` | ➖ | exe 위치의 상위 폴더 | 프로젝트 루트 절대 경로 |
+| `JAVA_HOME` | ➖ | 자동 탐색 | Java 설치 경로. 생략 시 환경변수, 기본 설치 경로, Windows 레지스트리, PATH 순으로 탐색 |
 
 ### [1단계] update_jar
 
@@ -239,4 +240,4 @@ nexacro_pipeline.exe -config nexacro_config_release.txt -version 24.0.0.1031
 | Python | 3.8 이상 |
 | PyInstaller | 5.x 이상 (exe 빌드 시) |
 | Git | 설치 및 PATH 등록 필요 |
-| Java | `C:\microsoft-jdk-21.0.9-windows-x64\...` 또는 레지스트리/PATH 등록 |
+| Java | `JAVA_HOME` config/환경변수, `C:\microsoft-jdk-21.0.9-windows-x64\...`, 레지스트리 또는 PATH 등록 |

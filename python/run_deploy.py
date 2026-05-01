@@ -39,10 +39,34 @@ def _validate(cfg: dict[str, str]) -> None:
 
 # ── JAVA_HOME 탐색 ────────────────────────────────────────────────────────────
 
-def find_java_home() -> str:
-    java_home = os.environ.get("JAVA_HOME", "").strip()
+def _java_home_candidate(value: str) -> Path:
+    """Return the JAVA_HOME directory for either a home path or java.exe path."""
+    p = Path(value.strip().strip('"'))
+    if p.name.lower() == "java.exe":
+        return p.parent.parent
+    return p
+
+
+def _valid_java_home(value: str) -> str | None:
+    if not value:
+        return None
+    home = _java_home_candidate(value)
+    return str(home) if (home / "bin" / "java.exe").exists() else None
+
+
+def find_java_home(cfg: dict[str, str] | None = None) -> str:
+    cfg = cfg or {}
+
+    config_java_home = _valid_java_home(cfg.get("JAVA_HOME", ""))
+    if config_java_home:
+        return config_java_home
+
+    env_java_home = os.environ.get("JAVA_HOME", "").strip()
+    java_home = _valid_java_home(env_java_home)
     if java_home:
         return java_home
+    if env_java_home:
+        log_warn(f"JAVA_HOME is set but invalid: {env_java_home}")
 
     log_info("[INFO] JAVA_HOME 미설정. 자동 탐색 중...")
 
@@ -57,7 +81,9 @@ def find_java_home() -> str:
                 with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, reg_path) as k:
                     ver = winreg.QueryValueEx(k, "CurrentVersion")[0]
                 with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, rf"{reg_path}\{ver}") as k:
-                    return winreg.QueryValueEx(k, "JavaHome")[0]
+                    java_home = _valid_java_home(winreg.QueryValueEx(k, "JavaHome")[0])
+                    if java_home:
+                        return java_home
             except OSError:
                 continue
 
@@ -274,7 +300,7 @@ def run(cfg: dict[str, str], root: Path, ignore: bool = False) -> None:
 
     step4_clean_dirs(output_path, deploy_path)
 
-    java_home = find_java_home()
+    java_home = find_java_home(cfg)
     log_info(f"[INFO] JAVA_HOME: {java_home}")
 
     if not START_BAT.exists():
