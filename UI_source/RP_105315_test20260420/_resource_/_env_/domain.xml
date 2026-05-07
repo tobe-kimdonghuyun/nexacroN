@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<domainlist>
+    <domain id="knto.D001106" name="test" type="string" size="20">
+        <description>Test</description>
+        
+        <attribute>
+            <item id="align" value="center"/>       <item id="inputtype" value="english,number"/> <item id="limitbymask" value="both"/>   </attribute>
+        
+        <defaultvalue>0000</defaultvalue>
+    </domain>
+
+</domainlist>
