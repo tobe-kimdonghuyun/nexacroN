@@ -165,6 +165,7 @@ def step5_zip(nexacrolib_root: Path, dest_dir: Path, gen_dest: Path) -> bool:
     zip_out     = nexacrolib_root / zip_name
     log_info(f"[5/5] zip 압축 -> {zip_out}")
     if zip_out.exists():
+        log_info(f"[INFO] 기존 zip 파일 삭제: {zip_out.name}")
         zip_out.unlink()
     try:
         with zipfile.ZipFile(zip_out, "w", zipfile.ZIP_DEFLATED) as zf:

@@ -68,7 +68,7 @@ def main() -> None:
     skip_jar       = args.skip_jar       or cfg.get("SKIP_JAR",       "0") == "1"
     skip_framework = args.skip_framework or cfg.get("SKIP_FRAMEWORK", "0") == "1"
     skip_deploy    = args.skip_deploy    or cfg.get("SKIP_DEPLOY",    "0") == "1"
-    ignore         = args.ignore         or cfg.get("IGNORE",         "0") == "1"
+    ignore         = args.ignore         or cfg.get("IGNORE", "0") == "1" or "-IGNORE" in cfg
 
     results: dict[str, str] = {}
 

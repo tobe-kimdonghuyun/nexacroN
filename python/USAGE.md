@@ -180,6 +180,24 @@ nexacroN\
 | 키 | 필수 | 기본값 | 설명 |
 |---|---|---|---|
 | `PROJECT_ROOT` | ➖ | exe 위치의 상위 폴더 | 프로젝트 루트 절대 경로 |
+| `LOG` | ➖ | `INFO` | 로그 출력 모드 (`INFO` 또는 `DEBUG`) |
+
+### 파이프라인 제어 항목 (통합 실행기 전용)
+
+| 키 | 기본값 | 설명 |
+|---|---|---|
+| `SKIP_JAR=1` | `0` | [1단계] JAR 업데이트 건너뜀 |
+| `SKIP_FRAMEWORK=1` | `0` | [2단계] 프레임워크 업데이트 건너뜀 |
+| `SKIP_DEPLOY=1` | `0` | [3단계] 배포 건너뜀 |
+| `IGNORE=1` 또는 `-IGNORE` | — | zip 파일 생성 건너뜀 (2·3단계 모두 적용) |
+
+> `-IGNORE` 는 플래그 형식으로도 사용할 수 있습니다 (`-MERGE`, `-COMPRESS` 방식과 동일).
+
+```ini
+# 예시: JAR 업데이트 없이 실행하고 zip 도 생성하지 않음
+SKIP_JAR=1
+-IGNORE
+```
 
 ### [1단계] update_jar
 
@@ -210,6 +228,60 @@ nexacroN\
 | `-MERGE` | ➖ | 머지 옵션 활성화 |
 | `-COMPRESS` | ➖ | 압축 옵션 활성화 |
 | `-SHRINK` | ➖ | Shrink 옵션 활성화 |
+
+### zip 파일 생성 동작
+
+- zip 생성 시 **동일 파일명이 존재하면 자동으로 삭제 후 재생성**합니다.
+- 삭제 시 `[INFO] 기존 zip 파일 삭제: <파일명>` 로그가 출력됩니다.
+- `-IGNORE` 또는 `IGNORE=1` 설정 시 zip 생성 단계 자체를 건너뜁니다.
+
+---
+
+## 로그 출력 모드
+
+`nexacro_config.txt` 의 `LOG` 값으로 출력 상세도를 선택합니다.
+
+### INFO 모드 (기본값)
+
+단계 시작·완료, 건수 요약, 경고·에러만 출력합니다. 결과 확인에 적합합니다.
+
+```
+[1/5] 소스 저장소 업데이트: E:\git\... (branch: master)
+[2/5] 프레임워크 복사 -> ...
+[INFO] 변경된 파일: 3개
+[3/5] JS 파일 UTF-8 BOM 변환: ...
+[INFO] 변환된 파일: 120개
+[5/5] zip 압축 -> ...
+[INFO] zip 생성 완료: nexacrolib_noMerge_noCompress_noShrink(...).zip
+[SUCCESS] 프레임워크 업데이트 완료
+```
+
+### DEBUG 모드
+
+INFO 출력에 더해 파일별 상세 처리 내역, 다운로드 진행률 등을 모두 출력합니다.
+문제 발생 시 원인 추적에 적합합니다.
+
+```
+[2/5] 프레임워크 복사 -> ...
+      component 복사 완료
+      framework 복사 완료
+      nexacrolib.json 복사 완료
+[INFO] JSON version -> 24.0.0.1032
+      [CHANGED] nexacrolib.json
+      [CHANGED] Framework.json
+[INFO] 변경된 파일: 3개
+[INFO] 다운로드: http://...
+     1,024 KB / 20,480 KB  (5%)
+     ...
+```
+
+### 설정 방법
+
+```ini
+# nexacro_config.txt
+LOG=INFO    # 간소화 출력 (기본값 — 생략 가능)
+LOG=DEBUG   # 상세 출력
+```
 
 ---
 

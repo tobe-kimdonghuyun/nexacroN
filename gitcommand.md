@@ -12,7 +12,7 @@
 | **브랜치**      | `main` (기본), `master` (보조)              |
 
 ---
-
+## https://tfs2.tobesoft.com:9443/tfs/XPLATFORM/_git/WORK800/ 
 ## 📑 목차
 
 1. [저장소 설정](#1-저장소-설정-및-초기화)

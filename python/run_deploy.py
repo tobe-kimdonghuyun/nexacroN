@@ -247,6 +247,7 @@ def step13_zip(engine_dir: Path, ignore: bool) -> None:
 
     log_info(f"\n[INFO] zip 압축: {zip_out}")
     if zip_out.exists():
+        log_info(f"[INFO] 기존 zip 파일 삭제: {zip_out.name}")
         zip_out.unlink()
 
     try:

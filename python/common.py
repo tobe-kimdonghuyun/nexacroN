@@ -4,10 +4,10 @@ import sys
 from pathlib import Path
 
 # ── 로그 레벨 ─────────────────────────────────────────────────────────────────
-# INFO  : 단계 시작/완료, 수치 요약, 경고, 에러 (간소화)
-# DEBUG : INFO 포함 + 파일별 상세 처리, 진행률 (현재 동작)
+# INFO  : 단계 시작/완료, 수치 요약, 경고, 에러 (간소화 — 기본값)
+# DEBUG : INFO 포함 + 파일별 상세 처리, 진행률 (상세)
 
-_LOG_LEVEL = "DEBUG"  # 기본값
+_LOG_LEVEL = "INFO"  # 기본값
 
 
 def set_log_level(level: str) -> None:
