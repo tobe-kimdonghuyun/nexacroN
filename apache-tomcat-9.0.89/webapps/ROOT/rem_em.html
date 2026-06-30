@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rem / em 비교 샘플</title>
+    <style>
+        /*
+            rem: html(root)의 font-size를 기준으로 계산됩니다.
+            em : 현재 요소 또는 부모 요소의 font-size를 기준으로 계산됩니다.
+
+            Nexacro xcss 예:
+            -nexa-padding: 0.5em 1rem;
+            -nexa-border: 0.1em solid #c2c2c2;
+            border-radius: 0.25rem;
+            font: normal 1rem/normal "Arial";
+            letter-spacing: 0.05em;
+            word-spacing: 0.1em;
+        */
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            margin: 0;
+            padding: 2rem;
+            background: #f5f7fa;
+            color: #222;
+            font-family: Arial, "Malgun Gothic", sans-serif;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        h1 {
+            margin: 0 0 0.75rem;
+            font-size: 1.75rem;
+        }
+
+        h2 {
+            margin: 2rem 0 0.75rem;
+            font-size: 1.25rem;
+        }
+
+        p {
+            margin: 0 0 1rem;
+        }
+
+        .guide {
+            padding: 1rem;
+            border: 0.0625rem solid #c2c2c2;
+            border-radius: 0.25rem;
+            background: #fff;
+        }
+
+        .sample-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .sample-box {
+            background: #fff;
+            min-width: 0;
+        }
+
+        .sample-title {
+            margin: 0 0 0.75rem;
+            font-weight: bold;
+        }
+
+        /* rem only: root font-size 기준 */
+        .rem-only {
+            padding: 0.5rem 1rem;
+            border: 0.1rem solid #c2c2c2;
+            border-radius: 0.25rem;
+            font: normal 1rem/normal Arial, sans-serif;
+            letter-spacing: 0.05rem;
+            word-spacing: 0.1rem;
+        }
+
+        .rem-only.size-box {
+            width: 12rem;
+            min-height: 4rem;
+        }
+
+        .rem-only.control {
+            width: 12rem;
+            min-height: 2.5rem;
+        }
+
+        .rem-only.textarea {
+            min-height: 5rem;
+            resize: vertical;
+        }
+
+        .rem-only.table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .rem-only.table th,
+        .rem-only.table td {
+            padding: 0.5rem 0.75rem;
+            border: 0.0625rem solid #c2c2c2;
+        }
+
+        /* em only: 자기 자신 또는 부모 font-size 기준 */
+        .em-parent {
+            font-size: 18px;
+        }
+
+        .em-only {
+            padding: 0.5em 1em;
+            border: 0.1em solid #c2c2c2;
+            border-radius: 0.25em;
+            font: normal 1em/normal Arial, sans-serif;
+            letter-spacing: 0.05em;
+            word-spacing: 0.1em;
+        }
+
+        .em-only.size-box {
+            width: 12em;
+            min-height: 4em;
+        }
+
+        .em-only.control {
+            width: 12em;
+            min-height: 2.5em;
+        }
+
+        .em-only.textarea {
+            min-height: 5em;
+            resize: vertical;
+        }
+
+        .em-only.table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .em-only.table th,
+        .em-only.table td {
+            padding: 0.5em 0.75em;
+            border: 0.0625em solid #c2c2c2;
+        }
+
+        /* rem + em mixed: Nexacro xcss와 비슷한 조합 */
+        .mixed-parent {
+            font-size: 18px;
+        }
+
+        .mixed {
+            padding: 0.5em 1rem;
+            border: 0.1em solid #c2c2c2;
+            border-radius: 0.25rem;
+            font: normal 1rem/normal Arial, sans-serif;
+            letter-spacing: 0.05em;
+            word-spacing: 0.1em;
+        }
+
+        .mixed.size-box {
+            width: 12rem;
+            min-height: 4em;
+        }
+
+        .mixed.control {
+            width: 12rem;
+            min-height: 2.5em;
+        }
+
+        .mixed.textarea {
+            min-height: 5em;
+            resize: vertical;
+        }
+
+        .mixed.table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .mixed.table th,
+        .mixed.table td {
+            padding: 0.5em 0.75rem;
+            border: 0.0625em solid #c2c2c2;
+        }
+
+        input,
+        textarea,
+        button {
+            box-sizing: border-box;
+        }
+
+        button {
+            cursor: pointer;
+            background: #eef4ff;
+        }
+
+        input,
+        textarea {
+            background: #fff;
+        }
+
+        table {
+            background: #fff;
+        }
+
+        th {
+            background: #eef1f5;
+            text-align: left;
+        }
+
+        @media (max-width: 900px) {
+            body {
+                padding: 1rem;
+            }
+
+            .sample-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>HTML rem / em 스타일 비교</h1>
+    <div class="guide">
+        <p><strong>rem only</strong>: html의 <code>font-size: 16px</code> 기준으로 크기가 계산됩니다.</p>
+        <p><strong>em only</strong>: 부모 또는 자기 자신의 font-size 기준으로 크기가 계산됩니다. 이 샘플의 부모는 <code>font-size: 18px</code>입니다.
+        </p>
+        <p><strong>rem + em mixed</strong>: Nexacro xcss처럼 padding, border, letter-spacing은 em을 쓰고, radius/font/일부
+            width는 rem을 섞었습니다.</p>
+    </div>
+
+    <h2>Button 3개</h2>
+    <div class="sample-grid">
+        <div class="sample-box">
+            <p class="sample-title">rem only</p>
+            <button type="button" class="rem-only control">button rem sample</button>
+        </div>
+        <div class="sample-box em-parent">
+            <p class="sample-title">em only</p>
+            <button type="button" class="em-only control">button em sample</button>
+        </div>
+        <div class="sample-box mixed-parent">
+            <p class="sample-title">rem + em mixed</p>
+            <button type="button" class="mixed control">button mixed sample</button>
+        </div>
+    </div>
+
+    <h2>Div 3개</h2>
+    <div class="sample-grid">
+        <div class="sample-box">
+            <p class="sample-title">rem only</p>
+            <div class="rem-only size-box">div rem sample text</div>
+        </div>
+        <div class="sample-box em-parent">
+            <p class="sample-title">em only</p>
+            <div class="em-only size-box">div em sample text</div>
+        </div>
+        <div class="sample-box mixed-parent">
+            <p class="sample-title">rem + em mixed</p>
+            <div class="mixed size-box">div mixed sample text</div>
+        </div>
+    </div>
+
+    <h2>Edit input 3개</h2>
+    <div class="sample-grid">
+        <div class="sample-box">
+            <p class="sample-title">rem only</p>
+            <input type="text" class="rem-only control" value="edit rem sample">
+        </div>
+        <div class="sample-box em-parent">
+            <p class="sample-title">em only</p>
+            <input type="text" class="em-only control" value="edit em sample">
+        </div>
+        <div class="sample-box mixed-parent">
+            <p class="sample-title">rem + em mixed</p>
+            <input type="text" class="mixed control" value="edit mixed sample">
+        </div>
+    </div>
+
+    <h2>Textarea 3개</h2>
+    <div class="sample-grid">
+        <div class="sample-box">
+            <p class="sample-title">rem only</p>
+            <textarea class="rem-only control textarea">textarea rem sample</textarea>
+        </div>
+        <div class="sample-box em-parent">
+            <p class="sample-title">em only</p>
+            <textarea class="em-only control textarea">textarea em sample</textarea>
+        </div>
+        <div class="sample-box mixed-parent">
+            <p class="sample-title">rem + em mixed</p>
+            <textarea class="mixed control textarea">textarea mixed sample</textarea>
+        </div>
+    </div>
+
+    <h2>Table 3개</h2>
+    <div class="sample-grid">
+        <div class="sample-box">
+            <p class="sample-title">rem only</p>
+            <table class="rem-only table">
+                <thead>
+                    <tr>
+                        <th>구분</th>
+                        <th>값</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>font</td>
+                        <td>1rem</td>
+                    </tr>
+                    <tr>
+                        <td>padding</td>
+                        <td>0.5rem</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="sample-box em-parent">
+            <p class="sample-title">em only</p>
+            <table class="em-only table">
+                <thead>
+                    <tr>
+                        <th>구분</th>
+                        <th>값</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>font</td>
+                        <td>1em</td>
+                    </tr>
+                    <tr>
+                        <td>padding</td>
+                        <td>0.5em</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="sample-box mixed-parent">
+            <p class="sample-title">rem + em mixed</p>
+            <table class="mixed table">
+                <thead>
+                    <tr>
+                        <th>구분</th>
+                        <th>값</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>font</td>
+                        <td>1rem</td>
+                    </tr>
+                    <tr>
+                        <td>padding</td>
+                        <td>0.5em 0.75rem</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
